@@ -1,0 +1,10 @@
+settings:
+  kotlin:
+    apiVersion: 1.9
+    languageVersion: 1.9
+  android:
+    compileSdk: 34
+    namespace: "com.fleeksoft.charset"
+
+test-dependencies:
+  - $kotlin-test
