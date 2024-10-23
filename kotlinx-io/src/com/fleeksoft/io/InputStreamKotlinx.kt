@@ -3,12 +3,12 @@ package com.fleeksoft.io
 import kotlinx.io.Source
 import kotlinx.io.readByteArray
 
-internal class InputStreamKotlinx(private val source: Source) : InputStream {
+internal class InputStreamKotlinx(private val source: Source) : InputStream() {
     private var sourceMark: Source? = null
 
     fun source(): Source = sourceMark ?: source
 
-    override fun mark(readLimit: Long) {
+    override fun mark(readLimit: Int) {
         sourceMark = source().peek()
     }
 
@@ -17,7 +17,11 @@ internal class InputStreamKotlinx(private val source: Source) : InputStream {
         sourceMark = null
     }
 
-    override fun readBytes(count: Int): ByteArray {
+    override fun read(): Int {
+        return source().readInt()
+    }
+
+    override fun readNBytes(count: Int): ByteArray {
         val byteArray = ByteArray(count)
         var i = 0
         while (source().exhausted().not() && i < count) {
@@ -41,7 +45,7 @@ internal class InputStreamKotlinx(private val source: Source) : InputStream {
         return source().readByteArray()
     }
 
-    override fun exhausted(): Boolean {
+    fun exhausted(): Boolean {
         return source().exhausted()
     }
 

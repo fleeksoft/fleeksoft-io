@@ -1,3 +1,8 @@
 package com.fleeksoft.io
 
-typealias InputStreamReader = StreamDecoder
+expect class InputStreamReader: Reader {
+    constructor(inputStream: InputStream)
+
+    override fun read(cbuf: CharArray, offset: Int, length: Int): Int
+    override fun close()
+}
