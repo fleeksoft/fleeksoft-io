@@ -9,7 +9,11 @@ package com.fleeksoft.io
  *
  * @throws IllegalArgumentException  If `sz <= 0`
  */
-expect class BufferedReader(reader: Reader, sz: Int) : Reader {
+expect open class BufferedReader(reader: Reader, sz: Int) : Reader {
+    constructor(reader: Reader)
+
     override fun read(cbuf: CharArray, offset: Int, length: Int): Int
     override fun close()
+
+    open fun readLine(): String?
 }
