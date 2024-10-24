@@ -1,7 +1,9 @@
 package com.fleeksoft.io
 
+import com.fleeksoft.io.exception.EndOfStreamException
 import com.fleeksoft.io.exception.IOException
 import com.fleeksoft.io.exception.OutOfMemoryError
+import com.fleeksoft.io.internal.ObjHelper
 
 actual abstract class InputStream actual constructor() {
 
@@ -17,7 +19,7 @@ actual abstract class InputStream actual constructor() {
         var n: Int
 
         do {
-            var buf = ByteArray(minOf(remaining, Constants.DEFAULT_BYTE_BUFFER_SIZE))
+            var buf = ByteArray(minOf(remaining, Constants.IS_DEFAULT_BYTE_BUFFER_SIZE))
             var nread = 0
 
             // Read to EOF which may read more or less than buffer size
@@ -27,7 +29,7 @@ actual abstract class InputStream actual constructor() {
             }
 
             if (nread > 0) {
-                if (Constants.DEFAULT_BYTE_BUFFER_SIZE - total < nread) {
+                if (Constants.IS_DEFAULT_BYTE_BUFFER_SIZE - total < nread) {
                     throw OutOfMemoryError("Required array size too large")
                 }
                 if (nread < buf.size) {
@@ -71,8 +73,19 @@ actual abstract class InputStream actual constructor() {
         return result
     }
 
+    actual open fun readNBytes(bytes: ByteArray, off: Int, len: Int): Int {
+        ObjHelper.checkFromIndexSize(off, len, bytes.size)
+        var n = 0
+        while (n < len) {
+            val count = read(bytes, off + n, len - n)
+            if (count < 0) break
+            n += count
+        }
+        return n
+    }
+
     actual open fun read(bytes: ByteArray, off: Int, len: Int): Int {
-        require(off >= 0 && len >= 0 && off + len <= bytes.size) { "Index out of bounds" }
+        ObjHelper.checkFromIndexSize(off, len, bytes.size)
         if (len == 0) {
             return 0
         }
@@ -110,6 +123,44 @@ actual abstract class InputStream actual constructor() {
 
     actual open fun reset() {
         throw IOException("mark/reset not supported")
+    }
+
+    actual open fun skip(n: Long): Long {
+        var remaining = n
+        var nr: Int
+
+        if (n <= 0) {
+            return 0
+        }
+
+        val size = minOf(Constants.IS_MAX_SKIP_BUFFER_SIZE, remaining)
+        val skipBuffer = ByteArray(size.toInt())
+        while (remaining > 0) {
+            nr = read(skipBuffer, 0, minOf(size, remaining).toInt())
+            if (nr < 0) {
+                break
+            }
+            remaining -= nr.toLong()
+        }
+
+        return n - remaining
+    }
+
+    actual open fun skipNBytes(n: Long) {
+        var n = n
+        while (n > 0) {
+            val ns = skip(n)
+            if (ns in 1..n) {
+                n -= ns
+            } else if (ns == 0L) { // no bytes skipped
+                if (read() == -1) {
+                    throw EndOfStreamException()
+                }
+                n--
+            } else { // skipped negative or too many bytes
+                throw IOException("Unable to skip exactly")
+            }
+        }
     }
 
     actual open fun close() {
