@@ -1,20 +1,28 @@
 package com.fleeksoft.io
 
-interface InputStream {
+expect abstract class InputStream() {
 
-    public abstract fun mark(readLimit: Long)
+    abstract fun read(): Int
 
-    public abstract fun reset()
+    public open fun readNBytes(len: Int): ByteArray
 
-    public abstract fun readBytes(count: Int): ByteArray
+    public open fun readNBytes(bytes: ByteArray, off: Int, len: Int): Int
 
-    public abstract fun read(bytes: ByteArray, offset: Int = 0, length: Int = bytes.size): Int
+    public open fun read(bytes: ByteArray, off: Int, len: Int): Int
 
-    public abstract fun readAllBytes(): ByteArray
+    public open fun readAllBytes(): ByteArray
 
-    public abstract fun exhausted(): Boolean
+    public open fun mark(readLimit: Int)
 
-    public abstract fun close()
+    public open fun reset()
 
-    companion object
+    public open fun skip(n: Long): Long
+
+    public open fun skipNBytes(n: Long)
+
+    public open fun close()
+
+    public open fun available(): Int
+
+    public open fun markSupported(): Boolean
 }

@@ -1,10 +1,26 @@
 package com.fleeksoft.io
 
-expect abstract class Reader: Closeable {
+import com.fleeksoft.io.exception.IOException
+import kotlin.math.min
 
-    open fun read(): Int
+actual abstract class Reader: Closeable {
 
-    abstract fun read(cbuf: CharArray, offset: Int, length: Int): Int
+    actual open fun read(): Int {
+        val cb = CharArray(1)
+        return if (read(cb, 0, 1) == -1) -1
+        else cb[0].code
+    }
+
+    actual abstract fun read(cbuf: CharArray, offset: Int, length: Int): Int
+
+    fun readString(length: Int): String {
+        val cbuf = CharArray(length)
+        read(cbuf, 0, cbuf.size)
+        return cbuf.concatToString()
+    }
+
+    /** Skip buffer, null until allocated  */
+    private var skipBuffer: CharArray? = null
 
 
     /**
@@ -20,7 +36,22 @@ expect abstract class Reader: Closeable {
      * @throws     IllegalArgumentException  If `n` is negative.
      * @throws     IOException  If an I/O error occurs
      */
-    open fun skip(n: Long): Long
+    actual open fun skip(n: Long): Long {
+        require(n >= 0L) { "skip value is negative" }
+        return implSkip(n)
+    }
+
+    private fun implSkip(n: Long): Long {
+        val nn = min(n.toInt(), Constants.maxSkipBufferSize)
+        if ((skipBuffer == null) || (skipBuffer!!.size < nn)) skipBuffer = CharArray(nn)
+        var r = n
+        while (r > 0) {
+            val nc = read(skipBuffer!!, 0, min(r.toDouble(), nn.toDouble()).toInt())
+            if (nc == -1) break
+            r -= nc.toLong()
+        }
+        return n - r
+    }
 
     /**
      * Tells whether this stream supports the mark() operation. The default
@@ -29,7 +60,9 @@ expect abstract class Reader: Closeable {
      *
      * @return true if and only if this stream supports the mark operation.
      */
-    open fun markSupported(): Boolean
+    actual open fun markSupported(): Boolean {
+        return false
+    }
 
 
     /**
@@ -41,7 +74,9 @@ expect abstract class Reader: Closeable {
      *
      * @throws     IOException  If an I/O error occurs
      */
-    open fun ready(): Boolean
+    actual open fun ready(): Boolean {
+        return false
+    }
 
     /**
      * Marks the present position in the stream.  Subsequent calls to reset()
@@ -56,7 +91,9 @@ expect abstract class Reader: Closeable {
      * @throws     IOException  If the stream does not support mark(),
      * or if some other I/O error occurs
      */
-    open fun mark(readAheadLimit: Int)
+    actual open fun mark(readAheadLimit: Int) {
+        throw IOException("mark() not supported")
+    }
 
     /**
      * Resets the stream.  If the stream has been marked, then attempt to
@@ -72,7 +109,9 @@ expect abstract class Reader: Closeable {
      * or if some other I/O error occurs
      */
 
-    open fun reset()
+    actual open fun reset() {
+        throw IOException("reset() not supported")
+    }
 
     /**
      * Closes the stream and releases any system resources associated with
@@ -82,5 +121,5 @@ expect abstract class Reader: Closeable {
      *
      * @throws     IOException  If an I/O error occurs
      */
-    abstract override fun close()
+    actual abstract override fun close()
 }
