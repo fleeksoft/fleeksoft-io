@@ -211,6 +211,7 @@ class MicroAmper(val project: Project) {
     fun applyTo() = with(project) {
         project.kotlin.sourceSets {
             ssDependsOn("native", "common")
+            ssDependsOn("native", "nonJvm")
             ssDependsOn("posix", "native")
             ssDependsOn("apple", "posix")
             ssDependsOn("appleNonWatchos", "apple")
