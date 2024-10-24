@@ -11,14 +11,14 @@ import kotlin.math.min
 /**
  * Creates a new string reader.
  *
- * @param s  String providing the character stream.
+ * @param str  String providing the character stream.
  */
-actual class StringReader(s: String) : Reader() {
+actual class StringReader actual constructor(str: String) : Reader() {
     private val lock = SynchronizedObject()
 //        todo:// most functions need synchronize lock
 
-    private val length: Int = s.length
-    private var str: String? = s
+    private val length: Int = str.length
+    private var str: String? = str
     private var next = 0
     private var mark = 0
 
@@ -43,7 +43,7 @@ actual class StringReader(s: String) : Reader() {
         }
     }
 
-    override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
+    actual override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
         synchronized(lock) {
             ensureOpen()
             ObjHelper.checkFromIndexSize(offset, length, cbuf.size)
@@ -158,7 +158,7 @@ actual class StringReader(s: String) : Reader() {
      * Closing a previously closed stream has no effect. This method will block
      * while there is another thread blocking on the reader.
      */
-    override fun close() {
+    actual override fun close() {
         synchronized(lock) {
             str = null
         }

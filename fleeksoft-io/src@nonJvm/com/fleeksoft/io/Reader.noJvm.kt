@@ -3,7 +3,7 @@ package com.fleeksoft.io
 import com.fleeksoft.io.exception.IOException
 import kotlin.math.min
 
-actual abstract class Reader {
+actual abstract class Reader: Closeable {
 
     actual open fun read(): Int {
         val cb = CharArray(1)
@@ -15,7 +15,7 @@ actual abstract class Reader {
 
     fun readString(length: Int): String {
         val cbuf = CharArray(length)
-        read(cbuf)
+        read(cbuf, 0, cbuf.size)
         return cbuf.concatToString()
     }
 
@@ -74,7 +74,9 @@ actual abstract class Reader {
      *
      * @throws     IOException  If an I/O error occurs
      */
-    actual abstract fun ready(): Boolean
+    actual open fun ready(): Boolean {
+        return false
+    }
 
     /**
      * Marks the present position in the stream.  Subsequent calls to reset()
@@ -119,5 +121,5 @@ actual abstract class Reader {
      *
      * @throws     IOException  If an I/O error occurs
      */
-    actual abstract fun close()
+    actual abstract override fun close()
 }

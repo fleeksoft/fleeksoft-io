@@ -1,6 +1,6 @@
 package com.fleeksoft.io
 
-expect abstract class Reader {
+expect abstract class Reader: Closeable {
 
     open fun read(): Int
 
@@ -82,5 +82,5 @@ expect abstract class Reader {
      *
      * @throws     IOException  If an I/O error occurs
      */
-    abstract fun close()
+    abstract override fun close()
 }
