@@ -1,5 +1,7 @@
 package com.fleeksoft.io
 
+import kotlinx.io.RawSource
 import kotlinx.io.Source
 
-fun Source.inputStream(): InputStream = InputStreamKotlinx(this)
+public fun Source.asInputStream(): InputStream = SourceInputStream(this)
+public fun InputStream.asSource(): RawSource = InputStreamSource(this)

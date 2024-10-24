@@ -29,6 +29,8 @@ The library includes Kotlin Multiplatform-compatible implementations of the foll
     - `BufferedReader.lineSequence(): Sequence<String>`
     - BufferedReader.readString(count: Int): String
 - `kotlinx-io`: Extension module
+    - `Source.asInputStream(): InputStream`
+    - `InputStream.asSource(): RawSource`
 
 ## Installation
 
