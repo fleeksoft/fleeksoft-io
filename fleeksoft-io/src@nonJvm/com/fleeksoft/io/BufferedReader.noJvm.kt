@@ -14,7 +14,9 @@ import kotlin.math.min
  *
  * @throws IllegalArgumentException  If `sz <= 0`
  */
-actual class BufferedReader actual constructor(reader: Reader, sz: Int) : Reader() {
+actual open class BufferedReader actual constructor(reader: Reader, sz: Int) : Reader() {
+    actual constructor(reader: Reader) : this(reader, Constants.DEFAULT_CHAR_BUFFER_SIZE)
+
     companion object {
         private const val INVALIDATED: Int = -2
         private const val UNMARKED: Int = -1
@@ -211,7 +213,7 @@ actual class BufferedReader actual constructor(reader: Reader, sz: Int) : Reader
      * @throws     IndexOutOfBoundsException {@inheritDoc}
      * @throws     IOException  {@inheritDoc}
      */
-    override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
+    actual override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
         return implRead(cbuf, offset, length)
     }
 
@@ -323,7 +325,7 @@ actual class BufferedReader actual constructor(reader: Reader, sz: Int) : Reader
      *
      * @see Files.readAllLines
      */
-    fun readLine(): String? {
+    actual open fun readLine(): String? {
         return readLine(false, null)
     }
 
@@ -448,7 +450,7 @@ actual class BufferedReader actual constructor(reader: Reader, sz: Int) : Reader
         skipLF = markedSkipLF
     }
 
-    override fun close() {
+    actual override fun close() {
         implClose()
     }
 
