@@ -38,7 +38,7 @@ actual open class ByteArrayInputStream : InputStream {
         if (len > avail) len = avail
         if (len <= 0) return 0
 
-        bytes.copyInto(destination = buf, destinationOffset = off, startIndex = pos, endIndex = pos + len)
+        buf.copyInto(destination = bytes, destinationOffset = off, startIndex = pos, endIndex = pos + len)
         pos += len
         return len
     }
