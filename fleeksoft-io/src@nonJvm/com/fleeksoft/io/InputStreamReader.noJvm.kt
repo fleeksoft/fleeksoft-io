@@ -3,7 +3,7 @@ package com.fleeksoft.io
 import com.fleeksoft.charset.Charset
 import com.fleeksoft.charset.Charsets
 
-actual class InputStreamReader : Reader {
+actual open class InputStreamReader : Reader {
 
     private val sd: StreamDecoder
 

@@ -2,7 +2,7 @@ package com.fleeksoft.io
 
 import com.fleeksoft.charset.Charset
 
-expect class InputStreamReader: Reader {
+expect open class InputStreamReader: Reader {
     constructor(inputStream: InputStream)
     constructor(inputStream: InputStream, charsetName: String)
     constructor(inputStream: InputStream, charset: Charset)

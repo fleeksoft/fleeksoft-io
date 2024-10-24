@@ -13,7 +13,7 @@ import kotlin.math.min
  *
  * @param str  String providing the character stream.
  */
-actual class StringReader actual constructor(str: String) : Reader() {
+actual open class StringReader actual constructor(str: String) : Reader() {
     private val lock = SynchronizedObject()
 //        todo:// most functions need synchronize lock
 
