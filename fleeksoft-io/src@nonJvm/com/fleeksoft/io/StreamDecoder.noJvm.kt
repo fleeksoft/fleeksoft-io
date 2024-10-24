@@ -2,16 +2,15 @@ package com.fleeksoft.io
 
 import com.fleeksoft.charset.Charset
 import com.fleeksoft.charset.CharsetDecoder
+import com.fleeksoft.charset.Charsets
 import com.fleeksoft.charset.CodingErrorAction
-import com.fleeksoft.charset.cs.utf.UTF_8
 import com.fleeksoft.charset.io.ByteBuffer
 import com.fleeksoft.charset.io.ByteBufferFactory
-import com.fleeksoft.charset.io.CharBuffer
 import com.fleeksoft.charset.io.CharBufferFactory
 import com.fleeksoft.io.exception.IOException
 import com.fleeksoft.io.internal.assert
 
-class StreamDecoder(source: InputStream, charset: Charset = UTF_8.INSTANCE) : Reader() {
+class StreamDecoder(source: InputStream, charset: Charset = Charsets.UTF8) : Reader() {
 
     // -- Charset-based stream decoder impl --
     private var cs: Charset = charset
