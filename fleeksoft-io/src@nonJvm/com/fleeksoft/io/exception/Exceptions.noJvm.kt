@@ -14,3 +14,8 @@ actual class OutOfMemoryError : VirtualMachineError {
     actual constructor() : super()
     actual constructor(msg: String) : super(msg)
 }
+
+actual class ArrayIndexOutOfBoundsException: IndexOutOfBoundsException {
+    actual constructor() : super()
+    actual constructor(msg: String) : super(msg)
+}

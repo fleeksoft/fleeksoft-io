@@ -12,3 +12,13 @@ expect class OutOfMemoryError : VirtualMachineError {
     constructor()
     constructor(msg: String)
 }
+
+expect class ArrayIndexOutOfBoundsException: IndexOutOfBoundsException {
+    constructor()
+    constructor(msg: String)
+}
+
+class EndOfStreamException : Exception {
+    constructor() : super()
+    constructor(msg: String) : super(msg)
+}
