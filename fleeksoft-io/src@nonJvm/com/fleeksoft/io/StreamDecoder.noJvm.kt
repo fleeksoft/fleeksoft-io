@@ -5,7 +5,9 @@ import com.fleeksoft.charset.CharsetDecoder
 import com.fleeksoft.charset.CodingErrorAction
 import com.fleeksoft.charset.cs.utf.UTF_8
 import com.fleeksoft.charset.io.ByteBuffer
+import com.fleeksoft.charset.io.ByteBufferFactory
 import com.fleeksoft.charset.io.CharBuffer
+import com.fleeksoft.charset.io.CharBufferFactory
 import com.fleeksoft.io.exception.IOException
 import com.fleeksoft.io.internal.assert
 
@@ -18,7 +20,7 @@ class StreamDecoder(source: InputStream, charset: Charset = UTF_8.INSTANCE) : Re
         .onMalformedInput(CodingErrorAction.REPLACE)
         .onUnmappableCharacter(CodingErrorAction.REPLACE)
 
-    private var bb: ByteBuffer = ByteBuffer.allocate(Constants.DEFAULT_BYTE_BUFFER_SIZE);
+    private var bb: ByteBuffer = ByteBufferFactory.allocate(Constants.DEFAULT_BYTE_BUFFER_SIZE);
 
     // Exactly one of these is non-null
     private var source: InputStream? = source
@@ -136,7 +138,7 @@ class StreamDecoder(source: InputStream, charset: Charset = UTF_8.INSTANCE) : Re
         // extra character, if any, at a higher level is easier than trying
         // to deal with it here.
 
-        var cb = CharBuffer.wrap(array = cbuf, offset = off, length = end - off)
+        var cb = CharBufferFactory.wrap(charArray = cbuf, offset = off, length = end - off)
         if (cb.position() != 0) {
             // Ensure that cb[0] == cbuf[off]
             cb = cb.slice();
@@ -146,7 +148,7 @@ class StreamDecoder(source: InputStream, charset: Charset = UTF_8.INSTANCE) : Re
         while (true) {
 //            println("bbPosition: ${bb.position()}, bb${bb}")
             val cr = decoder.decode(bb, cb, eof);
-            if (cr.isUnderflow) {
+            if (cr.isUnderflow()) {
                 if (eof)
                     break;
                 if (!cb.hasRemaining())
@@ -161,7 +163,7 @@ class StreamDecoder(source: InputStream, charset: Charset = UTF_8.INSTANCE) : Re
                 }
                 continue;
             }
-            if (cr.isOverflow) {
+            if (cr.isOverflow()) {
                 assert(cb.position() > 0)
                 break;
             }
@@ -183,7 +185,7 @@ class StreamDecoder(source: InputStream, charset: Charset = UTF_8.INSTANCE) : Re
     }
 
     fun encodingName(): String {
-        return cs.name
+        return cs.name()
     }
 
     private fun readBytes(): Int {
