@@ -11,11 +11,23 @@ The library includes Kotlin Multiplatform-compatible implementations of the foll
 
 - `Reader`: An abstract class for reading character streams.
 - `InputStream`: An abstract class for reading raw byte streams.
+- `ByteArrayInputStream`: Allows to create InputStream from ByteArray.
 - `InputStreamReader`: A bridge from byte streams to character streams.
 - `BufferedReader`: A wrapper for efficient reading of characters, arrays, and lines from a character stream.
-- `StreamDecoder`: A class that handles decoding of bytes into characters using a specified charset.
 - `StringReader`: A reader to parse strings as input streams.
 - `Charset`: A class from [`com.fleeksoft.charset`](https://github.com/fleeksoft/charset) to manage character sets and encodings.
+- `Extensions Functions`: InputStream and Reader extension functions:
+    - `String.byteInputStream(charset: Charset = Charsets.UTF8): ByteArrayInputStream`
+    - `ByteArray.inputStream(): ByteArrayInputStream`
+    - `ByteArray.inputStream(offset: Int, length: Int): ByteArrayInputStream`
+    - `InputStream.reader(charset: Charset = Charsets.UTF8): InputStreamReader`
+    - `Reader.buffered(bufferSize: Int = Constants.DEFAULT_BYTE_BUFFER_SIZE): BufferedReader`
+    - `InputStream.bufferedReader(charset: Charset = Charsets.UTF8): BufferedReader`
+    - `Reader.forEachLine(action: (String) -> Unit): Unit`
+    - `Reader.readLines(): List<String>`
+    - `String.reader(): StringReader`
+    - `BufferedReader.lineSequence(): Sequence<String>`
+- `kotlinx-io`: Extension module
 
 ## Installation
 
