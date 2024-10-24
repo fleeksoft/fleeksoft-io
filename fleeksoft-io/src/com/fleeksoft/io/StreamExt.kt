@@ -35,6 +35,12 @@ public fun Reader.readLines(): List<String> {
     return result
 }
 
+public fun Reader.readString(count: Int): String {
+    val buffer = CharArray(count)
+    val charsRead = this.read(buffer, 0, count)
+    return if (charsRead > 0) buffer.concatToString(startIndex = 0, endIndex = charsRead) else ""
+}
+
 public inline fun <T> Reader.useLines(block: (Sequence<String>) -> T): T {
     contract {
         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
