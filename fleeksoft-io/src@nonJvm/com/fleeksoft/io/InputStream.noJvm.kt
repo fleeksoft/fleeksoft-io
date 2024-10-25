@@ -9,6 +9,38 @@ actual abstract class InputStream actual constructor() {
 
     actual abstract fun read(): Int
 
+    actual open fun read(bytes: ByteArray, off: Int, len: Int): Int {
+        ObjHelper.checkFromIndexSize(off, len, bytes.size)
+        if (len == 0) {
+            return 0
+        }
+
+        var c = read()
+        if (c == -1) {
+            return -1
+        }
+        bytes[off] = c.toByte()
+
+        var i = 1
+        try {
+            for (j in 1 until len) {
+                c = read()
+                if (c == -1) {
+                    break
+                }
+                bytes[off + j] = c.toByte()
+                i++
+            }
+        } catch (ee: IOException) {
+            // Handling the exception
+        }
+        return i
+    }
+
+    actual open fun read(bytes: ByteArray): Int {
+        return read(bytes, 0, bytes.size)
+    }
+
     actual open fun readNBytes(len: Int): ByteArray {
         require(len >= 0) { "len < 0" }
 
@@ -82,34 +114,6 @@ actual abstract class InputStream actual constructor() {
             n += count
         }
         return n
-    }
-
-    actual open fun read(bytes: ByteArray, off: Int, len: Int): Int {
-        ObjHelper.checkFromIndexSize(off, len, bytes.size)
-        if (len == 0) {
-            return 0
-        }
-
-        var c = read()
-        if (c == -1) {
-            return -1
-        }
-        bytes[off] = c.toByte()
-
-        var i = 1
-        try {
-            for (j in 1 until len) {
-                c = read()
-                if (c == -1) {
-                    break
-                }
-                bytes[off + j] = c.toByte()
-                i++
-            }
-        } catch (ee: IOException) {
-            // Handling the exception
-        }
-        return i
     }
 
     actual open fun readAllBytes(): ByteArray {

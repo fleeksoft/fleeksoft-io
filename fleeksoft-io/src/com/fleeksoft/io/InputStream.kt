@@ -4,11 +4,13 @@ expect abstract class InputStream() {
 
     abstract fun read(): Int
 
+    public open fun read(bytes: ByteArray, off: Int, len: Int): Int
+
+    public open fun read(bytes: ByteArray): Int
+
     public open fun readNBytes(len: Int): ByteArray
 
     public open fun readNBytes(bytes: ByteArray, off: Int, len: Int): Int
-
-    public open fun read(bytes: ByteArray, off: Int, len: Int): Int
 
     public open fun readAllBytes(): ByteArray
 
