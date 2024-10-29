@@ -5,6 +5,37 @@ import kotlin.test.assertEquals
 
 class ReaderTest {
 
+    /*@Test
+    fun testUtf16BE() = runTest {
+        val firstLine = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">"""
+        val input = TestHelper.readResource("bomtests/bom_utf16be.html")
+            .reader(charset = Charsets.forName("UTF-16BE"))
+
+//            ignore first char (ZWNBSP)\uFEFF:65279
+        val strSize = firstLine.length + 1
+        val charBuffer = CharArray(strSize)
+        assertEquals(strSize, input.read(charBuffer, 0, charBuffer.size))
+        val actualReadLine = charBuffer.concatToString()
+        assertEquals(firstLine.length, actualReadLine.length - 1)
+        assertEquals(firstLine, actualReadLine.substring(1))
+    }
+
+    @Test
+    fun testUtf16LE() = runTest {
+
+        val firstLine = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">"""
+        val input = TestHelper.readResource("bomtests/bom_utf16le.html")
+            .reader(charset = Charsets.forName("UTF-16LE"))
+
+        //            ignore first char (ZWNBSP)\uFEFF:65279
+        val strSize = firstLine.length + 1
+        val charBuffer = CharArray(strSize)
+        assertEquals(strSize, input.read(charBuffer, 0, charBuffer.size))
+        val actualReadLine = charBuffer.concatToString()
+        assertEquals(firstLine.length, actualReadLine.length - 1)
+        assertEquals(firstLine, actualReadLine.substring(1))
+    }*/
+
     @Test
     fun testSpuriousByteReader() {
         val html = "\uFEFF<html><head><title>One</title></head><body>Two</body></html>"
