@@ -12,7 +12,8 @@ package com.fleeksoft.io
 expect open class BufferedReader(reader: Reader, sz: Int) : Reader {
     constructor(reader: Reader)
 
-    override fun read(cbuf: CharArray, offset: Int, length: Int): Int
+    override fun read(cbuf: CharArray, off: Int, len: Int): Int
+
     override fun close()
 
     open fun readLine(): String?

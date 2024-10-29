@@ -17,14 +17,14 @@ mavenPublishing {
                 url.set("https://opensource.org/licenses/Apache-2.0")
             }
         }
-        url.set("https://github.com/fleeksoft/ksoup")
+        url.set("https://github.com/fleeksoft/fleeksoft-io")
         issueManagement {
             system.set("Github")
-            url.set("https://github.com/fleeksoft/ksoup/issues")
+            url.set("https://github.com/fleeksoft/fleeksoft-io/issues")
         }
         scm {
-            connection.set("https://github.com/fleeksoft/ksoup.git")
-            url.set("https://github.com/fleeksoft/ksoup")
+            connection.set("https://github.com/fleeksoft/fleeksoft-io.git")
+            url.set("https://github.com/fleeksoft/fleeksoft-io")
         }
         developers {
             developer {
@@ -34,4 +34,37 @@ mavenPublishing {
             }
         }
     }
+}
+
+
+val rootPath = "generated/kotlin"
+kotlin {
+    sourceSets {
+        commonMain {
+            this.kotlin.srcDir(layout.buildDirectory.file(rootPath))
+        }
+    }
+}
+
+val generateBuildConfigFile: Task by tasks.creating {
+    group = "build setup"
+    val file = layout.buildDirectory.file("$rootPath/BuildConfig.kt")
+    outputs.file(file)
+
+    doLast {
+        val content =
+            """
+            package com.fleeksoft.io
+
+            object BuildConfig {
+                const val PROJECT_ROOT: String = "${rootProject.rootDir.absolutePath.replace("\\", "\\\\")}"
+            }
+            """.trimIndent()
+        file.get().asFile.writeText(content)
+    }
+}
+
+// Configure the generateBuildConfigFile task to run only for test tasks
+tasks.withType<Test>().configureEach {
+    dependsOn(generateBuildConfigFile)
 }

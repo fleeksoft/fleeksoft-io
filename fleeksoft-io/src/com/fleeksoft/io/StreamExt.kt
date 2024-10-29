@@ -14,14 +14,14 @@ public inline fun String.byteInputStream(charset: Charset = Charsets.UTF8): Byte
 
 public inline fun ByteArray.inputStream(): ByteArrayInputStream = ByteArrayInputStream(this)
 
-public inline fun ByteArray.inputStream(offset: Int, length: Int): ByteArrayInputStream =
-    ByteArrayInputStream(this, offset, length)
+public inline fun ByteArray.inputStream(off: Int, len: Int): ByteArrayInputStream =
+    ByteArrayInputStream(this, off, len)
 
 public inline fun InputStream.reader(charset: Charset = Charsets.UTF8): InputStreamReader =
     InputStreamReader(this, charset)
 
 public inline fun Reader.buffered(bufferSize: Int = Constants.DEFAULT_BYTE_BUFFER_SIZE): BufferedReader =
-    if (this is BufferedReader) this else BufferedReader(this, bufferSize)
+    this as? BufferedReader ?: BufferedReader(this, bufferSize)
 
 public inline fun InputStream.bufferedReader(charset: Charset = Charsets.UTF8): BufferedReader =
     reader(charset).buffered()
@@ -33,6 +33,12 @@ public fun Reader.readLines(): List<String> {
     val result = arrayListOf<String>()
     forEachLine { result.add(it) }
     return result
+}
+
+public fun Reader.readString(count: Int): String {
+    val buffer = CharArray(count)
+    val charsRead = this.read(buffer, 0, count)
+    return if (charsRead > 0) buffer.concatToString(startIndex = 0, endIndex = charsRead) else ""
 }
 
 public inline fun <T> Reader.useLines(block: (Sequence<String>) -> T): T {

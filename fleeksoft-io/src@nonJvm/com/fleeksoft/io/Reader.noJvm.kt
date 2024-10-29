@@ -1,9 +1,10 @@
 package com.fleeksoft.io
 
 import com.fleeksoft.io.exception.IOException
+import com.fleeksoft.io.exception.ReadOnlyBufferException
 import kotlin.math.min
 
-actual abstract class Reader: Closeable {
+actual abstract class Reader protected actual constructor() : Readable, Closeable {
 
     actual open fun read(): Int {
         val cb = CharArray(1)
@@ -11,7 +12,37 @@ actual abstract class Reader: Closeable {
         else cb[0].code
     }
 
-    actual abstract fun read(cbuf: CharArray, offset: Int, length: Int): Int
+    actual abstract fun read(cbuf: CharArray, off: Int, len: Int): Int
+
+    actual open fun read(cbuf: CharArray): Int {
+        return read(cbuf, 0, cbuf.size)
+    }
+
+    actual override fun read(cb: CharBuffer): Int {
+        if (cb.isReadOnly()) {
+            throw ReadOnlyBufferException()
+        }
+
+        var nread: Int
+        if (cb.hasArray()) {
+            val cbuf = cb.array()
+            val pos = cb.position()
+            val rem = maxOf(cb.limit() - pos, 0)
+            val off = cb.arrayOffset() + pos
+            nread = this.read(cbuf, off, rem)
+            if (nread > 0) {
+                cb.position(pos + nread)
+            }
+        } else {
+            val len = cb.remaining()
+            val cbuf = CharArray(len)
+            nread = read(cbuf, 0, len)
+            if (nread > 0) {
+                cb.put(cbuf, 0, nread)
+            }
+        }
+        return nread
+    }
 
     fun readString(length: Int): String {
         val cbuf = CharArray(length)

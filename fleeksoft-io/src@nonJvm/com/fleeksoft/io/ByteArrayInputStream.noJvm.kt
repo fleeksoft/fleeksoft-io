@@ -5,21 +5,21 @@ import kotlin.math.min
 
 actual open class ByteArrayInputStream : InputStream {
 
-    protected var buf: ByteArray
-    protected var pos = 0
-    protected var mark = 0
-    protected var count = 0
+    private var buf: ByteArray
+    private var pos = 0
+    private var mark = 0
+    private var count = 0
 
     actual constructor(buf: ByteArray) {
         this.buf = buf
         this.count = buf.size
     }
 
-    actual constructor(buf: ByteArray, offset: Int, length: Int) {
+    actual constructor(buf: ByteArray, off: Int, len: Int) {
         this.buf = buf
-        this.pos = offset
-        this.count = min(offset + length, buf.size)
-        this.mark = offset
+        this.pos = off
+        this.count = min(off + len, buf.size)
+        this.mark = off
     }
 
     actual override fun read(): Int {
@@ -38,7 +38,7 @@ actual open class ByteArrayInputStream : InputStream {
         if (len > avail) len = avail
         if (len <= 0) return 0
 
-        bytes.copyInto(destination = buf, destinationOffset = off, startIndex = pos, endIndex = pos + len)
+        buf.copyInto(destination = bytes, destinationOffset = off, startIndex = pos, endIndex = pos + len)
         pos += len
         return len
     }

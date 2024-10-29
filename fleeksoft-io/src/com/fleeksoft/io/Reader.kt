@@ -1,11 +1,14 @@
 package com.fleeksoft.io
 
-expect abstract class Reader: Closeable {
+expect abstract class Reader protected constructor() : Readable, Closeable {
 
     open fun read(): Int
 
-    abstract fun read(cbuf: CharArray, offset: Int, length: Int): Int
+    abstract fun read(cbuf: CharArray, off: Int, len: Int): Int
 
+    open fun read(cbuf: CharArray): Int
+
+    override fun read(cb: CharBuffer): Int
 
     /**
      * Skips characters.  This method will block until some characters are

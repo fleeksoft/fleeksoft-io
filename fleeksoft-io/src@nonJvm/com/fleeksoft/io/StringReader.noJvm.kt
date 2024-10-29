@@ -13,7 +13,7 @@ import kotlin.math.min
  *
  * @param str  String providing the character stream.
  */
-actual class StringReader actual constructor(str: String) : Reader() {
+actual open class StringReader actual constructor(str: String) : Reader() {
     private val lock = SynchronizedObject()
 //        todo:// most functions need synchronize lock
 
@@ -43,17 +43,17 @@ actual class StringReader actual constructor(str: String) : Reader() {
         }
     }
 
-    actual override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
+    actual override fun read(cbuf: CharArray, off: Int, len: Int): Int {
         synchronized(lock) {
             ensureOpen()
-            ObjHelper.checkFromIndexSize(offset, length, cbuf.size)
-            if (length == 0) {
+            ObjHelper.checkFromIndexSize(off, len, cbuf.size)
+            if (len == 0) {
                 return 0
             }
             if (next >= this.length) return -1
-            val n: Int = min(this.length - next, length)
+            val n: Int = min(this.length - next, len)
             for (i in 0 until n) {
-                cbuf[offset + i] = str!![next + i]
+                cbuf[off + i] = str!![next + i]
             }
             next += n
             return n
@@ -81,7 +81,7 @@ actual class StringReader actual constructor(str: String) : Reader() {
      *
      * @return {@inheritDoc}
      *
-     * @throws IOException {@inheritDoc}
+     * @throws com.fleeksoft.io.exception.IOException {@inheritDoc}
      */
     override fun skip(n: Long): Long {
         synchronized(lock) {

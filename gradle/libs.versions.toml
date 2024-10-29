@@ -1,5 +1,5 @@
 [versions]
-libraryVersion = "0.1.0"
+libraryVersion = "0.0.1"
 stately = "2.1.0"
 mavenPublish = "0.29.0"
 kotlin = "2.0.21"

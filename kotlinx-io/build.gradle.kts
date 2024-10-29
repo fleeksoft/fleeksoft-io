@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.mavenPublish)
-    alias(libs.plugins.kotlinx.atomicfu)
 }
 
 group = "com.fleeksoft.io"
@@ -17,14 +16,14 @@ mavenPublishing {
                 url.set("https://opensource.org/licenses/Apache-2.0")
             }
         }
-        url.set("https://github.com/fleeksoft/ksoup")
+        url.set("https://github.com/fleeksoft/fleeksoft-io")
         issueManagement {
             system.set("Github")
-            url.set("https://github.com/fleeksoft/ksoup/issues")
+            url.set("https://github.com/fleeksoft/fleeksoft-io/issues")
         }
         scm {
-            connection.set("https://github.com/fleeksoft/ksoup.git")
-            url.set("https://github.com/fleeksoft/ksoup")
+            connection.set("https://github.com/fleeksoft/fleeksoft-io.git")
+            url.set("https://github.com/fleeksoft/fleeksoft-io")
         }
         developers {
             developer {
