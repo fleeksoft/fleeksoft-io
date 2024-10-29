@@ -1,11 +1,11 @@
 package com.fleeksoft.io
 
-import com.fleeksoft.io.exception.EndOfStreamException
+import com.fleeksoft.io.exception.EOFException
 import com.fleeksoft.io.exception.IOException
 import com.fleeksoft.io.exception.OutOfMemoryError
 import com.fleeksoft.io.internal.ObjHelper
 
-actual abstract class InputStream actual constructor() {
+actual abstract class InputStream actual constructor() : Closeable {
 
     actual abstract fun read(): Int
 
@@ -61,7 +61,7 @@ actual abstract class InputStream actual constructor() {
             }
 
             if (nread > 0) {
-                if (Constants.IS_DEFAULT_BYTE_BUFFER_SIZE - total < nread) {
+                if (Constants.MAX_BUFFER_SIZE - total < nread) {
                     throw OutOfMemoryError("Required array size too large")
                 }
                 if (nread < buf.size) {
@@ -158,7 +158,7 @@ actual abstract class InputStream actual constructor() {
                 n -= ns
             } else if (ns == 0L) { // no bytes skipped
                 if (read() == -1) {
-                    throw EndOfStreamException()
+                    throw EOFException()
                 }
                 n--
             } else { // skipped negative or too many bytes
@@ -167,7 +167,7 @@ actual abstract class InputStream actual constructor() {
         }
     }
 
-    actual open fun close() {
+    actual override fun close() {
     }
 
     actual open fun available(): Int {

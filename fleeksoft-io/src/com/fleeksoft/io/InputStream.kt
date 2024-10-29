@@ -1,6 +1,6 @@
 package com.fleeksoft.io
 
-expect abstract class InputStream() {
+expect abstract class InputStream() : Closeable {
 
     abstract fun read(): Int
 
@@ -22,7 +22,7 @@ expect abstract class InputStream() {
 
     public open fun skipNBytes(n: Long)
 
-    public open fun close()
+    public override fun close()
 
     public open fun available(): Int
 
