@@ -1,6 +1,7 @@
 package com.fleeksoft.io
 
 import com.fleeksoft.charset.Charset
+import com.fleeksoft.charset.CharsetDecoder
 import com.fleeksoft.charset.Charsets
 
 actual open class InputStreamReader : Reader {
@@ -11,6 +12,9 @@ actual open class InputStreamReader : Reader {
     actual constructor(inputStream: InputStream, charsetName: String) : this(inputStream, Charsets.forName(charsetName))
     actual constructor(inputStream: InputStream, charset: Charset) {
         sd = StreamDecoder(inputStream, charset)
+    }
+    actual constructor(inputStream: InputStream, dec: CharsetDecoder) {
+        sd = StreamDecoder(inputStream, dec)
     }
 
     /**
@@ -41,14 +45,18 @@ actual open class InputStreamReader : Reader {
      * @return The character read, or -1 if the end of the stream has been
      *         reached
      *
-     * @throws IOException If an I/O error occurs
+     * @throws com.fleeksoft.io.exception.IOException If an I/O error occurs
      */
     override fun read(): Int {
         return sd.read()
     }
 
-    actual override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
-        return sd.read(cbuf, offset, length)
+    actual override fun read(cbuf: CharArray, off: Int, len: Int): Int {
+        return sd.read(cbuf, off, len)
+    }
+
+    override fun read(cbuf: CharArray): Int {
+        return sd.read(cbuf)
     }
 
     override fun ready(): Boolean {
