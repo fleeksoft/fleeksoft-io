@@ -1,0 +1,11 @@
+TODO:
+StringBuffer
+StringWriter
+BufferedReader.readString
+OutputStream
+SequenceInputStream
+StreamDecoder and its static functions: forInputStreamReader
+
+
+
+move lock to parent class in Reader.kt
