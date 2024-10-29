@@ -9,9 +9,9 @@ pluginManagement {
     }
 }
 
-plugins {
-    id("org.jetbrains.amper.settings.plugin").version("0.5.0-dev-1898")
-}
+/*plugins {
+    id("org.jetbrains.amper.settings.plugin").version("0.5.0-dev-1997")
+}*/
 
 include("io-core")
 include("fleeksoft-io")
