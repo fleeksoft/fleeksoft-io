@@ -4,27 +4,37 @@ import com.fleeksoft.charset.Charset
 import com.fleeksoft.charset.CharsetDecoder
 import com.fleeksoft.charset.Charsets
 import com.fleeksoft.charset.CodingErrorAction
-import com.fleeksoft.charset.io.ByteBuffer
-import com.fleeksoft.charset.io.ByteBufferFactory
-import com.fleeksoft.charset.io.CharBufferFactory
 import com.fleeksoft.io.exception.IOException
 import com.fleeksoft.io.internal.assert
 
-class StreamDecoder(source: InputStream, charset: Charset = Charsets.UTF8) : Reader() {
+class StreamDecoder : Reader {
 
     // -- Charset-based stream decoder impl --
-    private var cs: Charset = charset
+    private var cs: Charset
 
-    private var decoder: CharsetDecoder = charset.newDecoder()
-        .onMalformedInput(CodingErrorAction.REPLACE)
-        .onUnmappableCharacter(CodingErrorAction.REPLACE)
+    private var decoder: CharsetDecoder
 
-    private var bb: ByteBuffer = ByteBufferFactory.allocate(Constants.DEFAULT_BYTE_BUFFER_SIZE);
+    private var bb: ByteBuffer = ByteBufferFactory.allocate(Constants.DEFAULT_BYTE_BUFFER_SIZE)
 
     // Exactly one of these is non-null
-    private var source: InputStream? = source
+    private var source: InputStream?
 
     private var closed = false
+
+    constructor(input: InputStream, dec: CharsetDecoder) {
+        this.cs = dec.charset()
+        this.decoder = dec
+        this.source = input
+        this.bb = ByteBufferFactory.allocate(Constants.DEFAULT_BYTE_BUFFER_SIZE)
+        this.bb.flipExt()
+    }
+
+    constructor(input: InputStream, charset: Charset = Charsets.UTF8) : this(
+        input = input,
+        dec = charset.newDecoder()
+            .onMalformedInput(CodingErrorAction.REPLACE)
+            .onUnmappableCharacter(CodingErrorAction.REPLACE)
+    )
 
     private fun ensureOpen() {
         if (closed) throw IOException("Stream closed")
@@ -36,11 +46,6 @@ class StreamDecoder(source: InputStream, charset: Charset = Charsets.UTF8) : Rea
     //
     private var haveLeftoverChar: Boolean = false
     private var leftoverChar: Char? = null
-
-
-    init {
-        bb.flip()
-    }
 
     // -- Public methods corresponding to those in InputStreamReader --
     // All synchronization and state/argument checking is done in these public
@@ -55,13 +60,13 @@ class StreamDecoder(source: InputStream, charset: Charset = Charsets.UTF8) : Rea
         return read0()
     }
 
-    override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
-        return lockedRead(cbuf, offset, length)
+    override fun read(cbuf: CharArray, off: Int, len: Int): Int {
+        return lockedRead(cbuf, off, len)
     }
 
-    private fun lockedRead(cbuf: CharArray, offset: Int, length: Int): Int {
-        var off = offset
-        var len = length
+    private fun lockedRead(cbuf: CharArray, off: Int, len: Int): Int {
+        var off = off
+        var len = len
         ensureOpen()
         if ((off < 0) || (off > cbuf.size) || (len < 0) ||
             ((off + len) > cbuf.size) || ((off + len) < 0)
@@ -137,46 +142,46 @@ class StreamDecoder(source: InputStream, charset: Charset = Charsets.UTF8) : Rea
         // extra character, if any, at a higher level is easier than trying
         // to deal with it here.
 
-        var cb = CharBufferFactory.wrap(charArray = cbuf, offset = off, length = end - off)
+        var cb = CharBufferFactory.wrap(charArray = cbuf, off = off, len = end - off)
         if (cb.position() != 0) {
             // Ensure that cb[0] == cbuf[off]
-            cb = cb.slice();
+            cb = cb.slice()
         }
 
-        var eof = false;
+        var eof = false
         while (true) {
 //            println("bbPosition: ${bb.position()}, bb${bb}")
-            val cr = decoder.decode(bb, cb, eof);
+            val cr = decoder.decode(bb, cb, eof)
             if (cr.isUnderflow()) {
                 if (eof)
-                    break;
+                    break
                 if (!cb.hasRemaining())
-                    break;
+                    break
                 if ((cb.position() > 0) && !inReady())
-                    break;          // Block at most once
-                val n = readBytes();
+                    break          // Block at most once
+                val n = readBytes()
                 if (n < 0) {
-                    eof = true;
+                    eof = true
                     if ((cb.position() == 0) && (!bb.hasRemaining()))
-                        break;
+                        break
                 }
-                continue;
+                continue
             }
             if (cr.isOverflow()) {
                 assert(cb.position() > 0)
-                break;
+                break
             }
-            cr.throwException();
+            cr.throwException()
         }
 
         if (eof) {
             // ## Need to flush decoder
-            decoder.reset();
+            decoder.reset()
         }
 
         if (cb.position() == 0) {
             if (eof) {
-                return -1;
+                return -1
             }
             assert(false)
         }
@@ -198,14 +203,14 @@ class StreamDecoder(source: InputStream, charset: Charset = Charsets.UTF8) : Rea
             val n = source!!.read(bb.array(), bb.arrayOffset() + pos, remainingLength)
             if (n < 0) return n
             if (n == 0) throw IOException("Underlying input stream returned zero bytes")
-            assert(n <= remainingLength, "n = $n, rem = $remainingLength")
+            assert(n <= remainingLength) { "n = $n, rem = $remainingLength" }
             bb.position(pos + n)
         } finally {
             bb.flip()
         }
 
         val rem = bb.remaining()
-        assert(rem != 0, rem.toString())
+        assert(rem != 0) { rem.toString() }
         return rem
     }
 
