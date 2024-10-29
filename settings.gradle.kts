@@ -13,5 +13,6 @@ plugins {
     id("org.jetbrains.amper.settings.plugin").version("0.5.0-dev-1898")
 }
 
+include("io-core")
 include("fleeksoft-io")
 include("kotlinx-io")
