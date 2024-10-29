@@ -41,7 +41,7 @@ actual open class BufferedReader actual constructor(reader: Reader, sz: Int) : R
 
 
     init {
-        require(sz > 0) { "Buffer size <= 0" }
+        if (sz <= 0) throw IllegalArgumentException("Buffer size <= 0")
         cb = CharArray(sz)
         nChars = 0
         nextChar = nChars
@@ -213,8 +213,8 @@ actual open class BufferedReader actual constructor(reader: Reader, sz: Int) : R
      * @throws     IndexOutOfBoundsException {@inheritDoc}
      * @throws     IOException  {@inheritDoc}
      */
-    actual override fun read(cbuf: CharArray, offset: Int, length: Int): Int {
-        return implRead(cbuf, offset, length)
+    actual override fun read(cbuf: CharArray, off: Int, len: Int): Int {
+        return implRead(cbuf, off, len)
     }
 
     private fun implRead(cbuf: CharArray, off: Int, len: Int): Int {
@@ -249,7 +249,6 @@ actual open class BufferedReader actual constructor(reader: Reader, sz: Int) : R
      * any line-termination characters, or null if the end of the
      * stream has been reached without reading any characters
      *
-     * @see LineNumberReader.readLine
      * @throws     IOException  If an I/O error occurs
      */
     private fun readLine(ignoreLF: Boolean, term: BooleanArray?): String? {
@@ -323,7 +322,6 @@ actual open class BufferedReader actual constructor(reader: Reader, sz: Int) : R
      *
      * @throws     IOException  If an I/O error occurs
      *
-     * @see Files.readAllLines
      */
     actual open fun readLine(): String? {
         return readLine(false, null)
