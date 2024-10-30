@@ -6,13 +6,11 @@ import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
-import kotlin.concurrent.Volatile
 
 actual open class BufferedInputStream : FilterInputStream {
     private val lock = SynchronizedObject()
     private var initialSize = 0
 
-//    @Volatile
     private val buf: AtomicRef<ByteArray?> = atomic(null)
     private var markpos = -1
     private var marklimit = 0
