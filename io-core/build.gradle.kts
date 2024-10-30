@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.mavenPublish)
+    alias(libs.plugins.kotlinx.atomicfu)
 }
 
 group = "com.fleeksoft.io"
