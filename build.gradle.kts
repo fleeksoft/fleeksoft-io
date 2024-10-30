@@ -52,7 +52,7 @@ allprojects {
         compileSdk = 35
         namespace = "com.fleeksoft.${project.name.replace("-", ".")}"
         defaultConfig {
-            minSdk = 21
+            minSdk = 23
         }
     }
     MicroAmper(this).configure()

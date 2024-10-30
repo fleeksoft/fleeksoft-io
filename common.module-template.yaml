@@ -4,6 +4,7 @@ settings:
     languageVersion: 1.9
   android:
     compileSdk: 35
+    minSdk: 23
     namespace: "com.fleeksoft.charset"
 
 test-dependencies:
