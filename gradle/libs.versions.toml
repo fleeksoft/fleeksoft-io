@@ -1,7 +1,7 @@
 [versions]
 libraryVersion = "0.0.1"
 stately = "2.1.0"
-mavenPublish = "0.29.0"
+mavenPublish = "0.30.0"
 kotlin = "2.0.21"
 agp = "8.5.2"
 kotlinx-atomicfu="0.25.0"
