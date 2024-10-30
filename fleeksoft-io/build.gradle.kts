@@ -40,7 +40,7 @@ mavenPublishing {
 val rootPath = "generated/kotlin"
 kotlin {
     sourceSets {
-        commonMain {
+        commonTest {
             this.kotlin.srcDir(layout.buildDirectory.file(rootPath))
         }
     }
@@ -66,5 +66,10 @@ val generateBuildConfigFile: Task by tasks.creating {
 
 // Configure the generateBuildConfigFile task to run only for test tasks
 tasks.withType<Test>().configureEach {
+    dependsOn(generateBuildConfigFile)
+}
+
+// Ensure generateBuildConfigFile runs before compileKotlinJvm
+tasks.named("compileTestKotlinJvm").configure {
     dependsOn(generateBuildConfigFile)
 }
