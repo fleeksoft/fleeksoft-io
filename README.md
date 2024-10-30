@@ -1,9 +1,21 @@
 # Kotlin Multiplatform IO Library
 
-[![Kotlin Multiplatform](https://img.shields.io/badge/Kotlin-Multiplatform-blueviolet)](https://kotlinlang.org/docs/multiplatform.html)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
-
 This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It allows you to work with common Java-style IO operations on Kotlin code that runs across multiple platforms, including JVM, Android, iOS, and more.
+
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
+
+![badge-jvm](http://img.shields.io/badge/platform-jvm-DB413D.svg?style=flat)
+![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
+![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
+![badge-mac](http://img.shields.io/badge/platform-macos-111111.svg?style=flat)
+![badge-tvos](http://img.shields.io/badge/platform-tvos-808080.svg?style=flat)
+![badge-tvos](http://img.shields.io/badge/platform-watchos-808080.svg?style=flat)
+![badge-linux](http://img.shields.io/badge/platform-linux-2D3F6C.svg?style=flat)
+![badge-windows](http://img.shields.io/badge/platform-windows-4D76CD.svg?style=flat)
+![badge-js](https://img.shields.io/badge/platform-js-F8DB5D.svg?style=flat)
+![badge-wasm](https://img.shields.io/badge/platform-wasm-F8DB5D.svg?style=flat)
 
 ## Features
 
@@ -51,6 +63,8 @@ Provides seamless interoperation with kotlinx-io, extending its functionality wi
 
 
 ## Installation
+###### Latest Version
+[![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
 
 To integrate this library into your Kotlin Multiplatform project, add the relevant dependencies in your `build.gradle.kts`:
 ```kotlin
