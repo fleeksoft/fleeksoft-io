@@ -5,7 +5,7 @@ settings:
   android:
     compileSdk: 35
     minSdk: 23
-    namespace: "com.fleeksoft.charset"
+    namespace: "com.fleeksoft.io"
 
 test-dependencies:
   - $kotlin-test
