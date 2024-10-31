@@ -2,6 +2,8 @@ package com.fleeksoft.io.inputstreamreader
 
 import com.fleeksoft.charset.Charsets
 import com.fleeksoft.charset.CodingErrorActionValue
+import com.fleeksoft.charset.Platform
+import com.fleeksoft.charset.isJvmOrAndroid
 import com.fleeksoft.io.ByteArrayInputStream
 import com.fleeksoft.io.InputStreamReader
 import com.fleeksoft.io.exception.IOException
@@ -33,6 +35,10 @@ class StatefulDecoderNearEOF {
     }
 
     fun testStatefulDecoderNearEOF(ba: ByteArray, numSucessReads: Int) {
+        if (Platform.isJvmOrAndroid()) {
+            // FIXME: allow this from jdk21
+            return
+        }
         InputStreamReader(
             ByteArrayInputStream(ba),
             Charsets.forName("UTF-16").newDecoder().onMalformedInput(CodingErrorActionValue.REPORT)

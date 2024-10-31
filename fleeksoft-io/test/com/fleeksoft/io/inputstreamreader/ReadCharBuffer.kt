@@ -2,6 +2,8 @@ package com.fleeksoft.io.inputstreamreader
 
 import com.fleeksoft.charset.Charsets
 import com.fleeksoft.charset.CodingErrorActionValue
+import com.fleeksoft.charset.Platform
+import com.fleeksoft.charset.isJvmOrAndroid
 import com.fleeksoft.charset.toByteArray
 import com.fleeksoft.io.*
 import kotlin.test.Test
@@ -54,6 +56,10 @@ class ReadCharBuffer {
 
     @Test
     fun readLeftover() {
+        if (Platform.isJvmOrAndroid()) {
+            // FIXME: allow this from jdk21
+            return
+        }
         val b = byteArrayOf('a'.code.toByte(), 'b'.code.toByte(), 0xC2.toByte())
         val bais = ByteArrayInputStream(b)
         val r = InputStreamReader(bais, Charsets.UTF8.newDecoder().onMalformedInput(CodingErrorActionValue.IGNORE))
