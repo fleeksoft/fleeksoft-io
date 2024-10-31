@@ -2,6 +2,8 @@ settings:
   kotlin:
     apiVersion: 1.9
     languageVersion: 1.9
+  jvm:
+    release: 17
   android:
     compileSdk: 35
     minSdk: 23
