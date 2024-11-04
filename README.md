@@ -3,7 +3,7 @@
 This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It allows you to work with common Java-style IO operations on Kotlin code that runs across multiple platforms, including JVM, Android, iOS, and more.
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
-[![Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
 
 ![badge-jvm](http://img.shields.io/badge/platform-jvm-DB413D.svg?style=flat)
@@ -98,4 +98,4 @@ val charBuffer: CharBuffer = CharBufferFactory.wrap(charArray)
 Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
+This project is licensed under the GNU General Public License v2.0. See the [LICENSE](LICENSE.md) file for more details.
