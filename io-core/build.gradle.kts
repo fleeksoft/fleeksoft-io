@@ -10,7 +10,7 @@ mavenPublishing {
     coordinates("com.fleeksoft.io", "io-core", libs.versions.libraryVersion.get())
     pom {
         name.set("io-core")
-        description.set("Kotlni Multiplatform Charsets")
+        description.set("Kotlni Multiplatform IO")
         licenses {
             license {
                 name.set("Apache-2.0")
