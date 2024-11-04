@@ -3,7 +3,7 @@ package com.fleeksoft.io.inputstream
 import com.fleeksoft.io.BufferedInputStream
 import com.fleeksoft.io.ByteArrayInputStream
 import com.fleeksoft.io.InputStream
-import com.fleeksoft.io.asInputStream
+import com.fleeksoft.io.kotlinx.asInputStream
 import com.fleeksoft.io.exception.OutOfMemoryError
 import kotlinx.io.buffered
 import kotlinx.io.files.Path

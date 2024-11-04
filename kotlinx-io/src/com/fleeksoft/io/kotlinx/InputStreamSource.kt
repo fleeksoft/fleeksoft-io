@@ -1,5 +1,6 @@
-package com.fleeksoft.io
+package com.fleeksoft.io.kotlinx
 
+import com.fleeksoft.io.InputStream
 import kotlinx.io.Buffer
 import kotlinx.io.RawSource
 import kotlinx.io.UnsafeIoApi

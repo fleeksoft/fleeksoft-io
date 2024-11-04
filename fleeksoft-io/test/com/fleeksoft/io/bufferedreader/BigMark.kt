@@ -2,7 +2,7 @@ package com.fleeksoft.io.bufferedreader
 
 import com.fleeksoft.io.BufferedReader
 import com.fleeksoft.io.BuildConfig
-import com.fleeksoft.io.asInputStream
+import com.fleeksoft.io.kotlinx.asInputStream
 import com.fleeksoft.io.exception.OutOfMemoryError
 import com.fleeksoft.io.reader
 import kotlinx.io.buffered

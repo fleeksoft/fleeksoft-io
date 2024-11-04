@@ -2,12 +2,11 @@ package com.fleeksoft.io.inputstreamreader
 
 import com.fleeksoft.io.BufferedReader
 import com.fleeksoft.io.InputStreamReader
-import com.fleeksoft.io.asInputStream
+import com.fleeksoft.io.kotlinx.asInputStream
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readLine
-import kotlinx.io.readString
 import kotlinx.io.writeString
 import kotlin.test.Test
 import kotlin.test.assertTrue
