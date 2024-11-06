@@ -21,6 +21,9 @@ This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It all
 
 This library is split into modules, each covering specific sets of classes to support Java-style IO in Kotlin Multiplatform. Key features include:
 
+### Note
+This library does not include APIs for direct file reading and writing but provides comprehensive support for InputStream operations derived from strings or byte arrays. You can extend this functionality using `kotlinx-io` or `okio`, which enables seamless file operations with Source and InputStream conversions. Please check the extension modules
+
 ### Core IO Module (`com.fleeksoft.io:core-io`)
 Provides foundational classes for buffer and charset management.
 
