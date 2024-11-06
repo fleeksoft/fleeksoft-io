@@ -61,6 +61,11 @@ Provides seamless interoperation with kotlinx-io, extending its functionality wi
 - **RawSource.asInputStream(): InputStream**: Converts a RawSource into an InputStream.
 - **InputStream.asSource(): RawSource**: Converts an InputStream into a RawSource.
 
+### Okio Integration (`com.fleeksoft.io:okio`)
+Provides seamless interoperation with Okio, extending its functionality with InputStream and Source conversions.
+- **Source.asInputStream(): InputStream**: Converts a Source into an InputStream.
+- **InputStream.asSource(): Source**: Converts an InputStream into a Source.
+
 
 ## Installation
 ###### Latest Version

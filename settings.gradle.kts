@@ -16,3 +16,4 @@ pluginManagement {
 include("io-core")
 include("fleeksoft-io")
 include("kotlinx-io")
+include("okio")
