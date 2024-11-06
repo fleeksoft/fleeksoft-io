@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.kotlinx.atomicfu)
     alias(libs.plugins.mavenPublish)
 }
 
