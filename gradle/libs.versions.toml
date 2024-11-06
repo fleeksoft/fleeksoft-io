@@ -7,12 +7,14 @@ agp = "8.7.2"
 kotlinx-atomicfu="0.25.0"
 fleeksoft-charset = "0.0.1"
 kotlinx-io = "0.5.4"
+okio = "3.9.1"
 
 [libraries]
 stately-concurrency = { module = "co.touchlab:stately-concurrency", version.ref = "stately" }
 fleeksoft-charset = { module = "com.fleeksoft.charset:charset", version.ref = "fleeksoft-charset" }
 fleeksoft-charset-ext = { module = "com.fleeksoft.charset:charset-ext", version.ref = "fleeksoft-charset" }
 kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
