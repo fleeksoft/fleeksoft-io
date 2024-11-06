@@ -1,9 +1,9 @@
-package com.fleeksoft.io.bufferedreader
+package com.fleeksoft.io.kotlinx.bufferedreader
 
 import com.fleeksoft.io.BufferedReader
-import com.fleeksoft.io.BuildConfig
 import com.fleeksoft.io.kotlinx.asInputStream
 import com.fleeksoft.io.exception.OutOfMemoryError
+import com.fleeksoft.io.kotlinx.BuildConfig
 import com.fleeksoft.io.reader
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
@@ -23,7 +23,7 @@ class BigMark {
         var line: String?
         var i = 0
         val inputStreamReader =
-            SystemFileSystem.source(Path("${BuildConfig.PROJECT_ROOT}/fleeksoft-io/test/com/fleeksoft/io/bufferedreader/BigMark.kt")).buffered()
+            SystemFileSystem.source(Path("${BuildConfig.PROJECT_ROOT}/kotlinx-io/test/com/fleeksoft/io/kotlinx/bufferedreader/BigMark.kt")).buffered()
                 .asInputStream().reader()
         val br = BufferedReader(inputStreamReader, 100)
 

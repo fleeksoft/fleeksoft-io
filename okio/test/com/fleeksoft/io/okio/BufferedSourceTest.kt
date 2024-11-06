@@ -6,44 +6,14 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class BufferedSourceTest {
-    @Test
-    fun inputStream() {
-        BufferedSourceTestInternal.Factory.entries.forEach {
-            BufferedSourceTestInternal(it).inputStream()
-        }
-    }
+class NewBufferTest : BufferedSourceTest(Factory.NewBuffer)
+class SourceBufferTest : BufferedSourceTest(Factory.SourceBuffer)
+class OneByteAtATimeSourceTest : BufferedSourceTest(Factory.OneByteAtATimeSource)
+class OneByteAtATimeSinkTest : BufferedSourceTest(Factory.OneByteAtATimeSink)
+class PeekSourceTest : BufferedSourceTest(Factory.PeekSource)
+class PeekBufferedSourceTest : BufferedSourceTest(Factory.PeekBufferedSource)
 
-    @Test
-    fun inputStreamOffsetCount() {
-        BufferedSourceTestInternal.Factory.entries.forEach {
-            BufferedSourceTestInternal(it).inputStreamOffsetCount()
-        }
-    }
-
-    @Test
-    fun inputStreamSkip() {
-        BufferedSourceTestInternal.Factory.entries.forEach {
-            BufferedSourceTestInternal(it).inputStreamSkip()
-        }
-    }
-
-    @Test
-    fun inputStreamCharByChar() {
-        BufferedSourceTestInternal.Factory.entries.forEach {
-            BufferedSourceTestInternal(it).inputStreamCharByChar()
-        }
-    }
-
-    @Test
-    fun inputStreamBounds() {
-        BufferedSourceTestInternal.Factory.entries.forEach {
-            BufferedSourceTestInternal(it).inputStreamBounds()
-        }
-    }
-}
-
-private class BufferedSourceTestInternal(private val factory: Factory) {
+abstract class BufferedSourceTest(private val factory: Factory) {
     enum class Factory {
         NewBuffer {
             override fun pipe(): Pipe {
@@ -158,6 +128,7 @@ private class BufferedSourceTestInternal(private val factory: Factory) {
     private val sink: BufferedSink = pipe.sink
     private val source: BufferedSource = pipe.source
 
+    @Test
     fun inputStream() {
         sink.writeUtf8("abc")
         sink.emit()
@@ -180,6 +151,7 @@ private class BufferedSourceTestInternal(private val factory: Factory) {
         assertEquals(-1, `in`.read().toLong())
     }
 
+    @Test
     fun inputStreamOffsetCount() {
         sink.writeUtf8("abcde")
         sink.emit()
@@ -195,6 +167,7 @@ private class BufferedSourceTestInternal(private val factory: Factory) {
         }
     }
 
+    @Test
     fun inputStreamSkip() {
         sink.writeUtf8("abcde")
         sink.emit()
@@ -207,6 +180,7 @@ private class BufferedSourceTestInternal(private val factory: Factory) {
         assertEquals(0, `in`.skip(1)) // Try to skip when exhausted.
     }
 
+    @Test
     fun inputStreamCharByChar() {
         sink.writeUtf8("abc")
         sink.emit()
@@ -217,6 +191,7 @@ private class BufferedSourceTestInternal(private val factory: Factory) {
         assertEquals(-1, `in`.read().toLong())
     }
 
+    @Test
     fun inputStreamBounds() {
         sink.writeUtf8("a".repeat(100))
         sink.emit()

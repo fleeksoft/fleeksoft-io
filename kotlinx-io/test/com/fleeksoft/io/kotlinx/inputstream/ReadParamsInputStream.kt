@@ -1,4 +1,4 @@
-package com.fleeksoft.io.inputstream
+package com.fleeksoft.io.kotlinx.inputstream
 
 import com.fleeksoft.io.BufferedInputStream
 import com.fleeksoft.io.ByteArrayInputStream

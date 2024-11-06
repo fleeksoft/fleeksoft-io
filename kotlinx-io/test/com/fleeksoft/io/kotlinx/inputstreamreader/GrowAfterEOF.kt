@@ -1,4 +1,4 @@
-package com.fleeksoft.io.inputstreamreader
+package com.fleeksoft.io.kotlinx.inputstreamreader
 
 import com.fleeksoft.io.BufferedReader
 import com.fleeksoft.io.InputStreamReader
@@ -28,7 +28,6 @@ class GrowAfterEOF {
 
                 // read till the end of file
                 while (r.readLine() != null);
-
 
 
                 // append to the end of the file

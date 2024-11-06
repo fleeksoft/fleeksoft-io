@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.kotlinx.atomicfu)
     alias(libs.plugins.mavenPublish)
 }
 
@@ -32,5 +33,38 @@ mavenPublishing {
                 organization.set("Fleek Soft")
             }
         }
+    }
+}
+
+val rootPath = "generated/kotlin"
+kotlin {
+    sourceSets {
+        commonTest {
+            this.kotlin.srcDir(layout.buildDirectory.file(rootPath))
+        }
+    }
+}
+
+val generateBuildConfigFile: Task by tasks.creating {
+    group = "build setup"
+    val file = layout.buildDirectory.file("$rootPath/BuildConfig.kt")
+    outputs.file(file)
+
+    doLast {
+        val content =
+            """
+            package com.fleeksoft.io.kotlinx
+
+            object BuildConfig {
+                const val PROJECT_ROOT: String = "${rootProject.rootDir.absolutePath.replace("\\", "\\\\")}"
+            }
+            """.trimIndent()
+        file.get().asFile.writeText(content)
+    }
+}
+
+tasks.configureEach {
+    if (name != generateBuildConfigFile.name && !name.contains("publish", ignoreCase = true)) {
+        dependsOn(generateBuildConfigFile.name)
     }
 }
