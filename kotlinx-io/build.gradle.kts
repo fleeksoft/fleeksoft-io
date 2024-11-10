@@ -10,7 +10,7 @@ mavenPublishing {
     coordinates("com.fleeksoft.io", "kotlinx-io", libs.versions.libraryVersion.get())
     pom {
         name.set("kotlinx-io")
-        description.set("Kotlni Multiplatform IO")
+        description.set("Kotlin Multiplatform IO")
         licenses {
             license {
                 name.set("Apache-2.0")
