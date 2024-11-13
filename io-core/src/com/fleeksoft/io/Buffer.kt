@@ -51,12 +51,12 @@ expect abstract class Buffer {
 //    abstract fun slice(index: Int, length: Int): Buffer
 }
 
-expect fun Buffer.setPositionExt(pos: Int)
-expect fun Buffer.setLimitExt(newLimit: Int)
-expect fun Buffer.clearExt()
-expect fun Buffer.flipExt()
-expect fun Buffer.rewindExt()
-expect fun Buffer.markExt()
-expect fun Buffer.resetExt()
-expect fun Buffer.sliceExt()
-expect fun Buffer.sliceExt(index: Int, length: Int)
+expect fun Buffer.setPositionExt(pos: Int): Buffer
+expect fun Buffer.setLimitExt(newLimit: Int): Buffer
+expect fun Buffer.clearExt(): Buffer
+expect fun Buffer.flipExt(): Buffer
+expect fun Buffer.rewindExt(): Buffer
+expect fun Buffer.markExt(): Buffer
+expect fun Buffer.resetExt(): Buffer
+expect fun Buffer.sliceExt(): Buffer
+expect fun Buffer.sliceExt(index: Int, length: Int): Buffer
