@@ -47,3 +47,41 @@ actual class UncheckedIOException : RuntimeException {
     actual constructor(message: String, cause: IOException) : super(message, cause)
     actual constructor(cause: IOException) : super(cause)
 }*/
+
+
+actual class URISyntaxException : Exception {
+    private var _input: String = ""
+    private var _index: Int = -1
+
+    actual constructor(input: String, reason: String, index: Int) : super(reason) {
+        if (index < -1) {
+            throw IllegalArgumentException()
+        } else {
+            this._input = input
+            this._index = index
+        }
+    }
+
+    actual fun getInput(): String = _input
+    actual fun getIndex(): Int = _index
+
+    actual constructor(input: String, reason: String) : this(input, reason, -1)
+
+    actual fun getReason(): String {
+        return super.message.toString()
+    }
+
+    override val message: String?
+        get() {
+            val sb = StringBuilder()
+            sb.append(this.getReason())
+            if (this._index > -1) {
+                sb.append(" at index ")
+                sb.append(this._index)
+            }
+
+            sb.append(": ")
+            sb.append(this._input)
+            return sb.toString()
+        }
+}
