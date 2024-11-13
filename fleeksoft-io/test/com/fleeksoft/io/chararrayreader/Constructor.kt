@@ -6,7 +6,7 @@ import kotlin.test.Test
 class Constructor {
     @Test
     fun main() {
-        val values: IntArray? = intArrayOf(
+        val values: IntArray = intArrayOf(
             Int.MIN_VALUE, -1, 0, 1, 4, 16, 31,
             32, 33, Int.MAX_VALUE
         )
