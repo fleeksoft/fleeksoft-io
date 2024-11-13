@@ -11,7 +11,7 @@ import kotlin.test.Test
  *
  */
 class ReadParams {
-    var values: IntArray? = intArrayOf(
+    var values: IntArray = intArrayOf(
         Int.MIN_VALUE, -1, 0, 1, 4, 16, 31,
         32, 33, Int.MAX_VALUE
     )

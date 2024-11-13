@@ -28,6 +28,28 @@ package com.fleeksoft.lang
 object Character {
     const val MIN_SUPPLEMENTARY_CODE_POINT: Int = 0x010000
     const val MAX_CODE_POINT: Int = 0X10FFFF
+    const val SPACE_SEPARATOR = 12
+    const val LINE_SEPARATOR = 13
+    const val PARAGRAPH_SEPARATOR = 14
+    const val MIN_RADIX = 2
+    const val MAX_RADIX = 36
+    const val DECIMAL_DIGIT_NUMBER = 9
+    const val ERROR: Int = (0xFFFFFFFF).toInt()
+
+    const val DIRECTIONALITY_UNDEFINED = -1
+    const val DIRECTIONALITY_LEFT_TO_RIGHT = 0
+    const val DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING = 14
+    const val DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE = 15
+    const val DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING = 16
+    const val DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE = 17
+    const val DIRECTIONALITY_POP_DIRECTIONAL_FORMAT = 18
+    const val DIRECTIONALITY_LEFT_TO_RIGHT_ISOLATE = 19
+    const val DIRECTIONALITY_RIGHT_TO_LEFT_ISOLATE = 20
+    const val DIRECTIONALITY_FIRST_STRONG_ISOLATE = 21
+    const val DIRECTIONALITY_POP_DIRECTIONAL_ISOLATE = 22
+
+    const val UNASSIGNED = 0
+    const val PRIVATE_USE = 18
 
     fun isSupplementaryCodePoint(codePoint: Int): Boolean {
         return codePoint >= MIN_SUPPLEMENTARY_CODE_POINT && codePoint < MAX_CODE_POINT + 1
@@ -68,3 +90,7 @@ object Character {
         return x - y
     }
 }
+
+
+expect fun Character.isSpaceChar(codePoint: Int): Boolean
+expect fun Character.getType(codePoint: Int): Int
