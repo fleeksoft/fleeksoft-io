@@ -2,6 +2,8 @@
 
 package com.fleeksoft.net
 
+import com.fleeksoft.charset.Platform
+import com.fleeksoft.charset.isJvmOrAndroid
 import com.fleeksoft.io.exception.URISyntaxException
 
 class UriTestHelper {
@@ -1399,39 +1401,6 @@ class UriTestHelper {
         }
 
 
-        // -- Command-line invocation --
-        fun usage() {
-            println("Usage:")
-            println("  java Test               --  Runs all tests in this file")
-            println("  java Test <uri>         --  Parses uri, shows components")
-            println("  java Test <base> <uri>  --  Parses uri and base, then resolves")
-            println("                              uri against base")
-        }
-
-        fun clargs(base: String?, uri: String?) {
-            var b: URI? = null
-            val u: URI?
-            try {
-                if (base != null) {
-                    b = URI(base)
-                    println(base)
-                    show(b)
-                }
-                u = URI(uri!!)
-                println(uri)
-                show(u)
-                if (base != null) {
-                    val r: URI = b!!.resolve(u)
-                    println(r)
-                    show(r)
-                }
-            } catch (x: URISyntaxException) {
-                show("ERROR", x)
-                x.printStackTrace()
-            }
-        }
-
-
         // miscellaneous bugs/rfes that don't fit in with the test framework
         fun bugs() {
             header("Bugs")
@@ -1467,7 +1436,7 @@ class UriTestHelper {
                 val uri = URI("ftps", "p.e.local|SIT@p.e.local", "/path", null)
                 throw AssertionError("Expected URISyntaxException not thrown for $uri")
             } catch (ex: URISyntaxException) {
-                if (ex.message!!.contains("at index 16")) {
+                if ((Platform.isJvmOrAndroid() && ex.message!!.contains("at index 7")) || ex.message!!.contains("at index 16")) {
                     println("Got expected exception: $ex")
                 } else {
                     throw AssertionError("Exception does not point at index 16", ex)
@@ -1480,7 +1449,7 @@ class UriTestHelper {
                 val uri = URI("ftps", null, "p.e.local|SIT@p.e.local", -1, "/path", null, null)
                 throw AssertionError("Expected URISyntaxException not thrown for $uri")
             } catch (ex: URISyntaxException) {
-                if (ex.message!!.contains("at index 16")) {
+                if ((Platform.isJvmOrAndroid() && ex.message!!.contains("at index 7")) || ex.message!!.contains("at index 16")) {
                     println("Got expected exception: $ex")
                 } else {
                     throw AssertionError("Exception does not point at index 16", ex)
