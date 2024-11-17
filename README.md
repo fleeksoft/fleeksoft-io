@@ -58,6 +58,11 @@ Includes core IO classes for reading character and byte streams.
       - `String.reader(): StringReader`
       - `BufferedReader.lineSequence(): Sequence<String>`
       - `BufferedReader.readString(count: Int): String`
+### URI Module (`com.fleeksoft.io:uri`)
+Provides a port of `java.net.URI` for Kotlin Multiplatform.
+
+- **URI**: A class representing a Uniform Resource Identifier (URI) reference, as defined by RFC 2396 and updated by RFC 2732. This class provides constructors and methods for manipulating URIs, parsing components, resolving relative URIs, and normalizing URIs.
+- **URIFactory**: Utility class for creating `URI` instances. Instead of using `URI.create(str)`, you should use `URIFactory.create(str)`.
 ### kotlinx-io Integration (`com.fleeksoft.io:kotlinx-io`)
 Provides seamless interoperation with kotlinx-io, extending its functionality with InputStream and Source conversions.
 - **Source.asInputStream(): InputStream**: Converts a Source into an InputStream.
