@@ -1,18 +1,15 @@
 [versions]
-libraryVersion = "0.0.1"
+libraryVersion = "0.0.2-alpha4"
 stately = "2.1.0"
 mavenPublish = "0.30.0"
-kotlin = "2.0.21"
+kotlin = "2.1.20-dev-4555"
 agp = "8.7.2"
-kotlinx-atomicfu="0.25.0"
-fleeksoft-charset = "0.0.1"
+kotlinx-atomicfu = "0.25.0"
 kotlinx-io = "0.5.4"
 okio = "3.9.1"
 
 [libraries]
 stately-concurrency = { module = "co.touchlab:stately-concurrency", version.ref = "stately" }
-fleeksoft-charset = { module = "com.fleeksoft.charset:charset", version.ref = "fleeksoft-charset" }
-fleeksoft-charset-ext = { module = "com.fleeksoft.charset:charset-ext", version.ref = "fleeksoft-charset" }
 kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
@@ -20,4 +17,4 @@ okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kmp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
-kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref="kotlinx-atomicfu" }
+kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "kotlinx-atomicfu" }

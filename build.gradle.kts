@@ -313,8 +313,8 @@ class MicroAmper(val project: Project) {
                     compilerOptions {
                         // apiVersion: Allow to use declarations only from the specified version of bundled libraries
                         // languageVersion: Provide source compatibility with specified language version
-                        this.apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-                        this.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+//                        this.apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+//                        this.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
                     }
                 }
             }
