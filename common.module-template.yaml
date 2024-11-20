@@ -1,7 +1,7 @@
 settings:
-  kotlin:
-    apiVersion: 2.0
-    languageVersion: 2.0
+#  kotlin:
+#    apiVersion: 2.0
+#    languageVersion: 2.0
   jvm:
     release: 17
   android:
