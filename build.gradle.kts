@@ -25,6 +25,7 @@ allprojects {
         mavenLocal()
         google()
         gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
     version = REAL_VERSION
     group = GROUP
