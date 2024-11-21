@@ -13,4 +13,4 @@ aliases:
 
 
 dependencies:
-  - ../io: exported
+  - ../charset: exported
