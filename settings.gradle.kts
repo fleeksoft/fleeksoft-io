@@ -15,9 +15,9 @@ pluginManagement {
 }*/
 
 include("io-core")
-include("fleeksoft-io")
+include("io")
 include("uri")
 include("kotlinx-io")
 include("okio")
 include("charset")
-//include("charset-ext")
+include("charset-ext")

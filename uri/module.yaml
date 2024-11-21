@@ -13,4 +13,4 @@ aliases:
 
 
 dependencies:
-  - ../fleeksoft-io
+  - ../io: exported
