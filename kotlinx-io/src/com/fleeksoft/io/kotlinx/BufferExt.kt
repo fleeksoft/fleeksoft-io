@@ -2,14 +2,11 @@
 
 package com.fleeksoft.io.kotlinx
 
-import com.fleeksoft.charset.Charset
-import com.fleeksoft.charset.decodeToString
 import com.fleeksoft.io.ByteBuffer
 import com.fleeksoft.io.InputStream
 import com.fleeksoft.io.exception.EOFException
 import kotlinx.io.Buffer
 import kotlinx.io.UnsafeIoApi
-import kotlinx.io.readByteArray
 import kotlinx.io.unsafe.UnsafeBufferOperations
 
 /**
@@ -94,28 +91,4 @@ public fun Buffer.transferFrom(source: ByteBuffer): Buffer {
     }
 
     return this
-}
-
-
-@OptIn(UnsafeIoApi::class)
-internal fun Buffer.readStringImpl(byteCount: Long, charset: Charset): String {
-    require(byteCount >= 0 && byteCount <= Int.MAX_VALUE) {
-        "byteCount ($byteCount) is not within the range [0..${Int.MAX_VALUE})"
-    }
-    if (size < byteCount) {
-        throw EOFException("Buffer contains less bytes then required (byteCount: $byteCount, size: $size)")
-    }
-    if (byteCount == 0L) return ""
-
-    var result: String? = null
-    UnsafeBufferOperations.readFromHead(this) { data, pos, limit ->
-        val len = limit - pos
-        if (len >= byteCount) {
-            result = data.decodeToString(charset, pos, pos + byteCount.toInt())
-            byteCount.toInt()
-        } else {
-            0
-        }
-    }
-    return result ?: readByteArray(byteCount.toInt()).decodeToString(charset)
 }
