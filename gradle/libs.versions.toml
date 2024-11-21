@@ -5,7 +5,7 @@ mavenPublish = "0.30.0"
 kotlin = "2.1.20-dev-4555"
 agp = "8.7.2"
 kotlinx-atomicfu = "0.25.0"
-kotlinx-io = "0.5.4"
+kotlinx-io = "0.6.0"
 okio = "3.9.1"
 
 [libraries]
