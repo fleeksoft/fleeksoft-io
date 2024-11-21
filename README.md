@@ -24,7 +24,7 @@ This library is split into modules, each covering specific sets of classes to su
 ### Note
 This library does not include APIs for direct file reading and writing but provides comprehensive support for InputStream operations derived from strings or byte arrays. You can extend this functionality using `kotlinx-io` or `okio`, which enables seamless file operations with Source and InputStream conversions. Please check the extension modules
 
-### Core IO Module (`com.fleeksoft.io:core-io`)
+### IO Core Module (`com.fleeksoft.io:io-core`)
 Provides foundational classes for buffer and charset management.
 
 - **Buffer**: Base container for data, compatible with `java.nio.Buffer`.
@@ -34,7 +34,7 @@ Provides foundational classes for buffer and charset management.
 - **Closeable**: Interface for resources that require closing after usage.
 - **Readable**: Interface for sources that can be read into a `CharBuffer`.
 ### Main IO Module (`com.fleeksoft.io:io`)
-Includes core IO classes for reading character and byte streams.
+Includes IO core classes for reading character and byte streams.
 
 - **Reader**: Abstract class for reading character streams.
 - **InputStream**: Abstract class for reading raw byte streams.
@@ -82,7 +82,7 @@ Provides seamless interoperation with Okio, extending its functionality with Inp
 To integrate this library into your Kotlin Multiplatform project, add the relevant dependencies in your `build.gradle.kts`:
 ```kotlin
 commonMain.dependencies {
-  implementation("com.fleeksoft.io:core-io:<version>")
+  implementation("com.fleeksoft.io:io-core:<version>")
   implementation("com.fleeksoft.io:io:<version>")
   // Optional: kotlinx-io integration
   implementation("com.fleeksoft.io:kotlinx-io:<version>")
