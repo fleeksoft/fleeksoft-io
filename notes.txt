@@ -1,5 +1,5 @@
 TODO:
-StringBuffer
+StringBuffer and replace StringBuilder in com.fleeksoft.net.UriTest.kt
 StringWriter
 BufferedReader.readString
 OutputStream
@@ -9,3 +9,8 @@ StreamDecoder and its static functions: forInputStreamReader
 
 
 move lock to parent class in Reader.kt
+
+
+TODO:
+MS932_0213
+SJIS_0213

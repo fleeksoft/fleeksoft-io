@@ -2,7 +2,7 @@
 
 This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It allows you to work with common Java-style IO operations on Kotlin code that runs across multiple platforms, including JVM, Android, iOS, and more.
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.1.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 ![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
 
@@ -21,7 +21,10 @@ This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It all
 
 This library is split into modules, each covering specific sets of classes to support Java-style IO in Kotlin Multiplatform. Key features include:
 
-### Core IO Module (`com.fleeksoft.io:core-io`)
+### Note
+This library does not include APIs for direct file reading and writing but provides comprehensive support for InputStream operations derived from strings or byte arrays. You can extend this functionality using `kotlinx-io` or `okio`, which enables seamless file operations with Source and InputStream conversions. Please check the extension modules
+
+### IO Core Module (`com.fleeksoft.io:io-core`)
 Provides foundational classes for buffer and charset management.
 
 - **Buffer**: Base container for data, compatible with `java.nio.Buffer`.
@@ -31,7 +34,7 @@ Provides foundational classes for buffer and charset management.
 - **Closeable**: Interface for resources that require closing after usage.
 - **Readable**: Interface for sources that can be read into a `CharBuffer`.
 ### Main IO Module (`com.fleeksoft.io:io`)
-Includes core IO classes for reading character and byte streams.
+Includes IO core classes for reading character and byte streams.
 
 - **Reader**: Abstract class for reading character streams.
 - **InputStream**: Abstract class for reading raw byte streams.
@@ -55,11 +58,25 @@ Includes core IO classes for reading character and byte streams.
       - `String.reader(): StringReader`
       - `BufferedReader.lineSequence(): Sequence<String>`
       - `BufferedReader.readString(count: Int): String`
+### URI Module (`com.fleeksoft.io:uri`)
+Provides a port of `java.net.URI` for Kotlin Multiplatform.
+
+- **URI**: A class representing a Uniform Resource Identifier (URI) reference, as defined by RFC 2396 and updated by RFC 2732. This class provides constructors and methods for manipulating URIs, parsing components, resolving relative URIs, and normalizing URIs.
+- **URIFactory**: Utility class for creating `URI` instances. Instead of using `URI.create(str)`, you should use `URIFactory.create(str)`.
 ### kotlinx-io Integration (`com.fleeksoft.io:kotlinx-io`)
 Provides seamless interoperation with kotlinx-io, extending its functionality with InputStream and Source conversions.
 - **Source.asInputStream(): InputStream**: Converts a Source into an InputStream.
 - **RawSource.asInputStream(): InputStream**: Converts a RawSource into an InputStream.
 - **InputStream.asSource(): RawSource**: Converts an InputStream into a RawSource.
+
+### Okio Integration (`com.fleeksoft.io:okio`)
+Provides seamless interoperation with Okio, extending its functionality with InputStream and Source conversions.
+- **Source.asInputStream(): InputStream**: Converts a Source into an InputStream.
+- **InputStream.asSource(): Source**: Converts an InputStream into a Source.
+
+
+### Charset Module (`com.fleeksoft.charset:charset`)
+[Check here](CharsetsReadme.md)
 
 
 ## Installation
@@ -69,7 +86,7 @@ Provides seamless interoperation with kotlinx-io, extending its functionality wi
 To integrate this library into your Kotlin Multiplatform project, add the relevant dependencies in your `build.gradle.kts`:
 ```kotlin
 commonMain.dependencies {
-  implementation("com.fleeksoft.io:core-io:<version>")
+  implementation("com.fleeksoft.io:io-core:<version>")
   implementation("com.fleeksoft.io:io:<version>")
   // Optional: kotlinx-io integration
   implementation("com.fleeksoft.io:kotlinx-io:<version>")

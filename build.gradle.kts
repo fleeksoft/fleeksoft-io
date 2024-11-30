@@ -25,6 +25,7 @@ allprojects {
         mavenLocal()
         google()
         gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
     version = REAL_VERSION
     group = GROUP
@@ -72,6 +73,7 @@ subprojects {
         compilerOptions.suppressWarnings.set(true)
         // @TODO: We should actually, convert warnings to errors and start removing warnings
         compilerOptions.freeCompilerArgs.add("-nowarn")
+        compilerOptions.freeCompilerArgs.add("-Xklib-duplicated-unique-name-strategy=allow-all-with-warning")
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink::class) {
@@ -313,8 +315,8 @@ class MicroAmper(val project: Project) {
                     compilerOptions {
                         // apiVersion: Allow to use declarations only from the specified version of bundled libraries
                         // languageVersion: Provide source compatibility with specified language version
-                        //this.apiVersion.set(KotlinVersion.KOTLIN_2_0)
-                        //this.languageVersion.set(KotlinVersion.KOTLIN_2_0)
+//                        this.apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+//                        this.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
                     }
                 }
             }

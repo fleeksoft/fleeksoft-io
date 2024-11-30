@@ -14,3 +14,5 @@ actual typealias MalformedInputException = java.nio.charset.MalformedInputExcept
 actual typealias UnmappableCharacterException = java.nio.charset.UnmappableCharacterException
 actual typealias CoderMalfunctionError = java.nio.charset.CoderMalfunctionError
 //actual typealias UncheckedIOException = java.io.UncheckedIOException
+
+actual typealias URISyntaxException = java.net.URISyntaxException

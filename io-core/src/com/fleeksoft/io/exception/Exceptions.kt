@@ -38,3 +38,12 @@ class UncheckedIOException : RuntimeException {
     constructor(message: String, cause: IOException) : super(message, cause)
     constructor(cause: IOException) : super(cause)
 }
+
+expect class URISyntaxException : Exception {
+    constructor(input: String, reason: String, index: Int)
+    constructor(input: String, reason: String)
+
+    fun getInput(): String
+    fun getIndex(): Int
+    fun getReason(): String
+}
