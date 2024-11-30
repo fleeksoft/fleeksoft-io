@@ -75,7 +75,10 @@ Provides seamless interoperation with Okio, extending its functionality with Inp
 - **InputStream.asSource(): Source**: Converts an InputStream into a Source.
 
 
-### Charset Module (`com.fleeksoft.charset:charset`)
+### Charset Modules
+- `com.fleeksoft.charset:charset:<version>`
+- `com.fleeksoft.charset:charset-ext:<version>`
+
 [Check here](CharsetsReadme.md)
 
 
