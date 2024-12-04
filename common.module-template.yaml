@@ -6,7 +6,7 @@ settings:
     release: 17
   android:
     compileSdk: 35
-    minSdk: 23
+    minSdk: 21
     namespace: "com.fleeksoft.io"
 
 test-dependencies:

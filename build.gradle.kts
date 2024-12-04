@@ -53,7 +53,7 @@ allprojects {
         compileSdk = 35
         namespace = "com.fleeksoft.${project.name.replace("-", ".")}"
         defaultConfig {
-            minSdk = 23
+            minSdk = 21
         }
     }
     MicroAmper(this).configure()
@@ -304,6 +304,10 @@ class MicroAmper(val project: Project) {
                 "watchosDeviceArm64" -> kotlin.watchosDeviceArm64()
                 "watchosSimulatorArm64" -> kotlin.watchosSimulatorArm64()
                 "mingwX64" -> kotlin.mingwX64()
+                "androidNativeX86" -> kotlin.androidNativeX86()
+                "androidNativeX64" -> kotlin.androidNativeX64()
+                "androidNativeArm32" -> kotlin.androidNativeArm32()
+                "androidNativeArm64" -> kotlin.androidNativeArm64()
             }
         }
 
