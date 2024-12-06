@@ -2,6 +2,7 @@ package com.fleeksoft.charset
 
 enum class PlatformType {
     ANDROID,
+    ANDROID_NATIVE,
     JVM,
     IOS,
     APPLE,

@@ -100,12 +100,19 @@ class MicroAmper(val project: Project) {
     val kotlinBasePlatforms by lazy { kotlinPlatforms.groupBy { getKotlinBasePlatform(it) } }
 
     fun getKotlinBasePlatform(platform: String): String =
-        platform.removeSuffix("X64").removeSuffix("X86").removeSuffix("Arm64").removeSuffix("Arm32").removeSuffix("Simulator").removeSuffix("Device")
+        platform.removeSuffix("X64").removeSuffix("X86").removeSuffix("Arm64").removeSuffix("Arm32")
+            .removeSuffix("Simulator").removeSuffix("Device")
             .also {
-                check(it.all { it.isLowerCase() && !it.isDigit() })
+                check(it.all { !it.isDigit() })
             }
 
-    data class Dep(val path: String, val exported: Boolean, val test: Boolean, val platform: String, val compileOnly: Boolean) {
+    data class Dep(
+        val path: String,
+        val exported: Boolean,
+        val test: Boolean,
+        val platform: String,
+        val compileOnly: Boolean
+    ) {
         val rplatform = platform.takeIf { it.isNotEmpty() } ?: "common"
         val configuration =
             "$rplatform${if (test) "Test" else "Main"}${if (exported) "Api" else if (compileOnly) "CompileOnly" else "Implementation"}"
@@ -123,7 +130,8 @@ class MicroAmper(val project: Project) {
                         //println("product=$tline")
                         when {
                             tline.startsWith("platforms:") -> {
-                                val platforms = tline.substringAfter('[').substringBeforeLast(']').split(',').map { it.trim() }
+                                val platforms =
+                                    tline.substringAfter('[').substringBeforeLast(']').split(',').map { it.trim() }
                                 kotlinPlatforms.addAll(platforms)
                             }
                         }
@@ -145,10 +153,20 @@ class MicroAmper(val project: Project) {
                         val test = mode.startsWith("test")
                         val compileOnly = line.contains(Regex(":\\s*compile-only"))
                         val exported = line.contains(Regex(":\\s*exported"))
-                        val path = tline.removePrefix("-").removeSuffix(": exported").removeSuffix(":exported").removeSuffix(": compile-only")
+                        val path = tline.removePrefix("-").removeSuffix(": exported").removeSuffix(":exported")
+                            .removeSuffix(": compile-only")
                             .removeSuffix(":compile-only").trim()
-                        if (platform.isBlank() || kotlinBasePlatforms.contains(platform) || kotlinAliases.contains(platform) || platform == "apple") {
-                            deps += Dep(path = path, exported = exported, test = test, platform = platform, compileOnly = compileOnly)
+                        if (platform.isBlank() || kotlinBasePlatforms.contains(platform) || kotlinAliases.contains(
+                                platform
+                            ) || platform == "apple"
+                        ) {
+                            deps += Dep(
+                                path = path,
+                                exported = exported,
+                                test = test,
+                                platform = platform,
+                                compileOnly = compileOnly
+                            )
                         } else {
                             println("platform not included: $platform in $project")
                         }
@@ -346,7 +364,9 @@ class MicroAmper(val project: Project) {
                             when (dep.path) {
                                 "\$kotlin-test" -> "org.jetbrains.kotlin:kotlin-test"
                                 else -> {
-                                    val result = libFinder.findLibrary(dep.path.replace("\$libs.", "").replace(".", "-")).getOrNull()?.get()
+                                    val result =
+                                        libFinder.findLibrary(dep.path.replace("\$libs.", "").replace(".", "-"))
+                                            .getOrNull()?.get()
                                     result?.toString() ?: TODO("Unknown ${dep.path}, $result")
                                 }
                             }
