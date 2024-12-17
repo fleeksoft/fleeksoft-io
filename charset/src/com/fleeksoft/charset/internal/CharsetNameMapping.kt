@@ -217,9 +217,6 @@ object CharsetNameMapping {
             // other
             "cesu8" to "CESU-8",
             "cscesu8" to "CESU-8",
-            "gb18030" to "GB18030",
-            "gb180302022" to "GB18030",
-            "gb180302000" to "GB18030",
 
             // moved from extended
             "gb2312" to "GB2312",
@@ -721,6 +718,9 @@ object CharsetNameMapping {
             "xmacsymbol" to "x-MacSymbol",
             "macdingbat" to "x-MacDingbat",
             "xmacdingbat" to "x-MacDingbat",
+            "gb18030" to "GB18030",
+            "gb180302022" to "GB18030",
+            "gb180302000" to "GB18030",
         )
     }
 }
