@@ -15,7 +15,6 @@ import com.fleeksoft.charset.cs.jis.JIS_X_0208
 import com.fleeksoft.charset.cs.jis.JIS_X_0212
 import com.fleeksoft.charset.cs.ms.*
 import com.fleeksoft.charset.cs.other.CESU_8
-import com.fleeksoft.charset.cs.other.GB18030
 import com.fleeksoft.charset.cs.other.KOI8_R
 import com.fleeksoft.charset.cs.other.KOI8_U
 import com.fleeksoft.charset.cs.utf.*
@@ -87,7 +86,6 @@ internal class StandardCharsetsProvider : CharsetProvider() {
             "KOI8-R" to { KOI8_R.INSTANCE },
             "KOI8-U" to { KOI8_U.INSTANCE },
             "CESU-8" to { CESU_8.INSTANCE },
-            "GB18030" to { GB18030.INSTANCE },
             "GB2312" to { EUC_CN.INSTANCE },
             "JIS_X0201" to { JIS_X_0201.INSTANCE },
             "x-JIS0208" to { JIS_X_0208.INSTANCE },

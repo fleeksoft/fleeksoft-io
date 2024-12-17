@@ -107,3 +107,4 @@ Supported by: `com.fleeksoft.charset:charset-ext:<version>`, which also includes
 - **PCK**
 - **SJIS**
 - **TIS_620**
+- **GB18030**

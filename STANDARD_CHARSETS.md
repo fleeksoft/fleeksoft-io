@@ -32,8 +32,9 @@ Supported by: `com.fleeksoft.charset:charset:<version>`
 - **KOI8-U**
 - **US-ASCII**
 - **CESU-8**
-- **GB18030**
-- **EUC_CN** <!-- List from here moved from extended -->
+- **EUC_CN**
+
+<!-- List from here moved from extended -->
 - **EUC_JP**
 - **EUC_JP_LINUX**
 - **EUC_JP_Open**

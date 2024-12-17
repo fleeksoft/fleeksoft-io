@@ -1,4 +1,4 @@
-package com.fleeksoft.charset.cs.other
+package com.fleeksoft.charset.cs.ext
 
 import com.fleeksoft.charset.Charset
 import com.fleeksoft.charset.internal.assert
