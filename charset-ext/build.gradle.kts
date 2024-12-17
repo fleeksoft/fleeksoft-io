@@ -10,7 +10,7 @@ mavenPublishing {
     coordinates("com.fleeksoft.charset", "charset-ext", libs.versions.libraryVersion.get())
     pom {
         name.set("charset-ext")
-        description.set("Kotlni Multiplatform Charsets")
+        description.set("Kotlin Multiplatform Charsets")
         licenses {
             license {
                 name.set("Apache-2.0")
