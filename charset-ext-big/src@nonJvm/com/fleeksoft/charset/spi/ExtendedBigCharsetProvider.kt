@@ -33,5 +33,6 @@ class ExtendedBigCharsetProvider : CharsetProvider() {
         "x-MS950-HKSCS-XP" to { MS950_HKSCS_XP() },
         "x-MS950-HKSCS" to { MS950_HKSCS() },
         "x-IBM834" to { IBM834() },
+        "GB18030" to { GB18030.INSTANCE },
     )
 }

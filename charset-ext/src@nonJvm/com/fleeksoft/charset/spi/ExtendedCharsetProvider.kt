@@ -121,6 +121,5 @@ class ExtendedCharsetProvider : CharsetProvider() {
         "x-MacThai" to { MacThai() },
         "x-MacSymbol" to { MacSymbol() },
         "x-MacDingbat" to { MacDingbat() },
-        "GB18030" to { GB18030.INSTANCE },
     )
 }

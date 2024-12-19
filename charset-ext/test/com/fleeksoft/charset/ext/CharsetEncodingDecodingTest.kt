@@ -168,11 +168,4 @@ class CharsetEncodingDecodingTest {
         val expectedBytes = byteArrayOf(72, 101, 108, 108, 111, 44, 32, -28, -72, -106, -25, -107, -116, 33)
         testEncodingDecoding("CESU-8", original, expectedBytes)
     }
-
-    @Test
-    fun testGb18030EncodingDecoding() {
-        val original = "你好, 世界!" // "Hello, World!" in Chinese
-        val expectedBytes = byteArrayOf(-60, -29, -70, -61, 44, 32, -54, -64, -67, -25, 33)
-        testEncodingDecoding("GB18030", original, expectedBytes)
-    }
 }

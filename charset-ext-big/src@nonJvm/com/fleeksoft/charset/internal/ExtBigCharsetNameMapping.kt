@@ -77,6 +77,9 @@ object ExtBigCharsetNameMapping {
             "ms936" to "x-mswin-936",
             "xmswin936" to "x-mswin-936",
 
+            "gb18030" to "GB18030",
+            "gb180302022" to "GB18030",
+            "gb180302000" to "GB18030",
             )
     }
 }

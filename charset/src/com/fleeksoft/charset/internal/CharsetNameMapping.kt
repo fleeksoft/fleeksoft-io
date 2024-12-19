@@ -718,9 +718,6 @@ object CharsetNameMapping {
             "xmacsymbol" to "x-MacSymbol",
             "macdingbat" to "x-MacDingbat",
             "xmacdingbat" to "x-MacDingbat",
-            "gb18030" to "GB18030",
-            "gb180302022" to "GB18030",
-            "gb180302000" to "GB18030",
         )
     }
 }
