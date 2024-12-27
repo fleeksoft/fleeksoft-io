@@ -1,5 +1,7 @@
 package com.fleeksoft.io.kotlinx.bufferedreader
 
+import com.fleeksoft.charset.Platform
+import com.fleeksoft.charset.isJsOrWasm
 import com.fleeksoft.io.BufferedReader
 import com.fleeksoft.io.kotlinx.asInputStream
 import com.fleeksoft.io.exception.OutOfMemoryError
@@ -18,12 +20,18 @@ import kotlin.test.Test
    @run main/othervm BigMark
 */
 class BigMark {
+
     @Test
     fun main() {
+        if (Platform.isJsOrWasm()) {
+//            file read/write issue
+            return
+        }
         var line: String?
         var i = 0
         val inputStreamReader =
-            SystemFileSystem.source(Path("${BuildConfig.PROJECT_ROOT}/kotlinx-io/test/com/fleeksoft/io/kotlinx/bufferedreader/BigMark.kt")).buffered()
+            SystemFileSystem.source(Path("${BuildConfig.PROJECT_ROOT}/kotlinx-io/test/com/fleeksoft/io/kotlinx/bufferedreader/BigMark.kt"))
+                .buffered()
                 .asInputStream().reader()
         val br = BufferedReader(inputStreamReader, 100)
 
@@ -42,4 +50,5 @@ class BigMark {
         }
         println("OutOfMemoryError not thrown as expected")
     }
+
 }
