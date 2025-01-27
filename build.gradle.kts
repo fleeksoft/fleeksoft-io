@@ -1,5 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import java.nio.file.Paths
+import kotlin.io.path.absolute
+import kotlin.io.path.pathString
+import kotlin.io.path.relativeTo
 import kotlin.jvm.optionals.getOrNull
 
 plugins {
@@ -161,7 +165,10 @@ class MicroAmper(val project: Project) {
                             ) || platform == "apple"
                         ) {
                             deps += Dep(
-                                path = path,
+                                path = if (path.contains("/")) replaceLeadingDotsWithFolders(
+                                    path,
+                                    file.parentFile.absolutePath
+                                ) else path,
                                 exported = exported,
                                 test = test,
                                 platform = platform,
@@ -183,6 +190,23 @@ class MicroAmper(val project: Project) {
                     }
                 }
             }
+        }
+    }
+
+    fun replaceLeadingDotsWithFolders(relativePath: String, basePath: String): String {
+        // Normalize and convert both paths to absolute
+        val base = Paths.get(basePath).normalize()
+        val resolvedRelative = base.resolve(relativePath).normalize()
+//        println("base: $basePath")
+//        println("resolvedRelative: $resolvedRelative")
+//        println("resolvedRelative2: ${resolvedRelative.relativeTo(Paths.get(relativePath))}")
+        val totalCounts = relativePath
+            .split('/', '\\')
+            .count { it == ".." }
+        return if (totalCounts > 0) {
+            resolvedRelative.pathString.substringAfter(rootDir.absolutePath)
+        } else {
+            relativePath
         }
     }
 
@@ -366,7 +390,11 @@ class MicroAmper(val project: Project) {
             for (dep in deps) {
                 add(
                     dep.configuration, when {
-                        dep.path.contains('/') -> project(":${File(dep.path).name}")
+                        dep.path.contains('/') -> {
+                            val realPath = dep.path.replace("/", ":")
+                            project(":$realPath")
+                        }
+
                         dep.path.startsWith("\$") -> {
                             when (dep.path) {
                                 "\$kotlin-test" -> "org.jetbrains.kotlin:kotlin-test"
