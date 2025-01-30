@@ -52,6 +52,7 @@ actual class UncheckedIOException : RuntimeException {
 actual class URISyntaxException : Exception {
     private var _input: String = ""
     private var _index: Int = -1
+    private var _reason: String
 
     actual constructor(input: String, reason: String, index: Int) : super(reason) {
         if (index < -1) {
@@ -60,6 +61,7 @@ actual class URISyntaxException : Exception {
             this._input = input
             this._index = index
         }
+        this._reason = reason
     }
 
     actual fun getInput(): String = _input
@@ -68,13 +70,13 @@ actual class URISyntaxException : Exception {
     actual constructor(input: String, reason: String) : this(input, reason, -1)
 
     actual fun getReason(): String {
-        return super.message.toString()
+        return _reason
     }
 
     override val message: String?
         get() {
             val sb = StringBuilder()
-            sb.append(this.getReason())
+            sb.append(_reason)
             if (this._index > -1) {
                 sb.append(" at index ")
                 sb.append(this._index)

@@ -1,5 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import java.nio.file.Paths
+import kotlin.io.path.absolute
+import kotlin.io.path.pathString
+import kotlin.io.path.relativeTo
 import kotlin.jvm.optionals.getOrNull
 
 plugins {
@@ -100,12 +104,19 @@ class MicroAmper(val project: Project) {
     val kotlinBasePlatforms by lazy { kotlinPlatforms.groupBy { getKotlinBasePlatform(it) } }
 
     fun getKotlinBasePlatform(platform: String): String =
-        platform.removeSuffix("X64").removeSuffix("X86").removeSuffix("Arm64").removeSuffix("Arm32").removeSuffix("Simulator").removeSuffix("Device")
+        platform.removeSuffix("X64").removeSuffix("X86").removeSuffix("Arm64").removeSuffix("Arm32")
+            .removeSuffix("Simulator").removeSuffix("Device")
             .also {
-                check(it.all { it.isLowerCase() && !it.isDigit() })
+                check(it.all { !it.isDigit() })
             }
 
-    data class Dep(val path: String, val exported: Boolean, val test: Boolean, val platform: String, val compileOnly: Boolean) {
+    data class Dep(
+        val path: String,
+        val exported: Boolean,
+        val test: Boolean,
+        val platform: String,
+        val compileOnly: Boolean
+    ) {
         val rplatform = platform.takeIf { it.isNotEmpty() } ?: "common"
         val configuration =
             "$rplatform${if (test) "Test" else "Main"}${if (exported) "Api" else if (compileOnly) "CompileOnly" else "Implementation"}"
@@ -123,7 +134,8 @@ class MicroAmper(val project: Project) {
                         //println("product=$tline")
                         when {
                             tline.startsWith("platforms:") -> {
-                                val platforms = tline.substringAfter('[').substringBeforeLast(']').split(',').map { it.trim() }
+                                val platforms =
+                                    tline.substringAfter('[').substringBeforeLast(']').split(',').map { it.trim() }
                                 kotlinPlatforms.addAll(platforms)
                             }
                         }
@@ -145,10 +157,23 @@ class MicroAmper(val project: Project) {
                         val test = mode.startsWith("test")
                         val compileOnly = line.contains(Regex(":\\s*compile-only"))
                         val exported = line.contains(Regex(":\\s*exported"))
-                        val path = tline.removePrefix("-").removeSuffix(": exported").removeSuffix(":exported").removeSuffix(": compile-only")
+                        val path = tline.removePrefix("-").removeSuffix(": exported").removeSuffix(":exported")
+                            .removeSuffix(": compile-only")
                             .removeSuffix(":compile-only").trim()
-                        if (platform.isBlank() || kotlinBasePlatforms.contains(platform) || kotlinAliases.contains(platform) || platform == "apple") {
-                            deps += Dep(path = path, exported = exported, test = test, platform = platform, compileOnly = compileOnly)
+                        if (platform.isBlank() || kotlinBasePlatforms.contains(platform) || kotlinAliases.contains(
+                                platform
+                            ) || platform == "apple"
+                        ) {
+                            deps += Dep(
+                                path = if (path.contains("/")) replaceLeadingDotsWithFolders(
+                                    path,
+                                    file.parentFile.absolutePath
+                                ) else path,
+                                exported = exported,
+                                test = test,
+                                platform = platform,
+                                compileOnly = compileOnly
+                            )
                         } else {
                             println("platform not included: $platform in $project")
                         }
@@ -165,6 +190,23 @@ class MicroAmper(val project: Project) {
                     }
                 }
             }
+        }
+    }
+
+    fun replaceLeadingDotsWithFolders(relativePath: String, basePath: String): String {
+        // Normalize and convert both paths to absolute
+        val base = Paths.get(basePath).normalize()
+        val resolvedRelative = base.resolve(relativePath).normalize()
+//        println("base: $basePath")
+//        println("resolvedRelative: $resolvedRelative")
+//        println("resolvedRelative2: ${resolvedRelative.relativeTo(Paths.get(relativePath))}")
+        val totalCounts = relativePath
+            .split('/', '\\')
+            .count { it == ".." }
+        return if (totalCounts > 0) {
+            resolvedRelative.pathString.substringAfter(rootDir.absolutePath)
+        } else {
+            relativePath
         }
     }
 
@@ -238,6 +280,13 @@ class MicroAmper(val project: Project) {
                 if (isApple) ssDependsOn(basePlatform, "apple")
                 if (isNative) ssDependsOn(basePlatform, "native")
                 if (platform != basePlatform) ssDependsOn(platform, basePlatform)
+            }
+
+            all {
+                languageSettings {
+                    languageVersion = "2.0"
+                    apiVersion = "2.0"
+                }
             }
         }
 
@@ -319,8 +368,8 @@ class MicroAmper(val project: Project) {
                     compilerOptions {
                         // apiVersion: Allow to use declarations only from the specified version of bundled libraries
                         // languageVersion: Provide source compatibility with specified language version
-//                        this.apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-//                        this.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+                        this.apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+                        this.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
                     }
                 }
             }
@@ -341,12 +390,18 @@ class MicroAmper(val project: Project) {
             for (dep in deps) {
                 add(
                     dep.configuration, when {
-                        dep.path.contains('/') -> project(":${File(dep.path).name}")
+                        dep.path.contains('/') -> {
+                            val realPath = dep.path.replace("/", ":")
+                            project(":$realPath")
+                        }
+
                         dep.path.startsWith("\$") -> {
                             when (dep.path) {
                                 "\$kotlin-test" -> "org.jetbrains.kotlin:kotlin-test"
                                 else -> {
-                                    val result = libFinder.findLibrary(dep.path.replace("\$libs.", "").replace(".", "-")).getOrNull()?.get()
+                                    val result =
+                                        libFinder.findLibrary(dep.path.replace("\$libs.", "").replace(".", "-"))
+                                            .getOrNull()?.get()
                                     result?.toString() ?: TODO("Unknown ${dep.path}, $result")
                                 }
                             }

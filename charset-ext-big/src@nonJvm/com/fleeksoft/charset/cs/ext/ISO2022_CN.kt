@@ -34,7 +34,7 @@ class ISO2022_CN : Charset("ISO-2022-CN", null) {
         return false
     }
 
-    internal class Decoder(cs: Charset) : CharsetDecoder(cs, 1.0f, 1.0f) {
+    class Decoder(cs: Charset) : CharsetDecoder(cs, 1.0f, 1.0f) {
         private var shiftOut = false
         private var currentSODesig: Byte
 

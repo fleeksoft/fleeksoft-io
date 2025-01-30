@@ -1463,7 +1463,7 @@ class UriTestHelper {
             try {
                 val uri: URI? = URIFactory.create("http://nowhere.net/should not be permitted")
             } catch (e: IllegalArgumentException) {
-                if ("".equals(e.message) || e.message == null) {
+                if ("" == e.message || e.message == null) {
                     throw RuntimeException("No detail message")
                 }
             }
