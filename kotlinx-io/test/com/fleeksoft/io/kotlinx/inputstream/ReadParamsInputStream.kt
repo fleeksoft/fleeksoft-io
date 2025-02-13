@@ -2,7 +2,6 @@ package com.fleeksoft.io.kotlinx.inputstream
 
 import com.fleeksoft.charset.Platform
 import com.fleeksoft.charset.isJsOrWasm
-import com.fleeksoft.charset.isJvmOrAndroid
 import com.fleeksoft.io.BufferedInputStream
 import com.fleeksoft.io.ByteArrayInputStream
 import com.fleeksoft.io.InputStream
@@ -16,7 +15,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class ReadParamsInputStream {
-    val fn = Path("x.ReadBounds")
+    val fn by lazy { Path("x.ReadBounds") }
 
     @BeforeTest
     fun init() {
