@@ -84,4 +84,33 @@ actual open class ByteArrayInputStream : InputStream {
     }
 
     override fun close() {}
+
+    override fun transferTo(out: OutputStream): Long {
+        val len = count - pos
+        if (len > 0) {
+            // 'tmpbuf' is null if and only if 'out' is trusted
+            val tmpbuf: ByteArray? = when (out::class) {
+                // FIXME: depends on FileOutputStream::class
+                // FIXME: depends on PipedOutputStream::class
+                ByteArrayOutputStream::class /*, FileOutputStream::class, PipedOutputStream::class*/ -> null
+                else -> ByteArray(minOf(len, Constants.MAX_TRANSFER_SIZE))
+            }
+
+            var nwritten = 0
+            while (nwritten < len) {
+                val nbyte = minOf(len - nwritten, Constants.MAX_TRANSFER_SIZE)
+                // if 'out' is not trusted, transfer via a temporary buffer
+                if (tmpbuf != null) {
+                    buf.copyInto(tmpbuf, destinationOffset = 0, startIndex = pos, endIndex = pos + nbyte)
+                    out.write(tmpbuf, 0, nbyte)
+                } else {
+                    out.write(buf, pos, nbyte)
+                }
+                pos += nbyte
+                nwritten += nbyte
+            }
+            check(pos == count)
+        }
+        return len.toLong()
+    }
 }

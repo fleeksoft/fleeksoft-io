@@ -1,3 +1,28 @@
+/*
+ * Copyright (c) 1994, 2024, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package com.fleeksoft.io
 
 import com.fleeksoft.io.exception.IOException
@@ -247,24 +272,48 @@ actual open class BufferedInputStream : FilterInputStream {
                 input = null
             }
         }
-        /*
-        var buffer: ByteArray?
-        while (true) {
-            buffer = buf.value
-            if (buffer == null) {
-                break
+    }
+
+    actual override fun transferTo(out: OutputStream): Long {
+        requireNotNull(out) { "out" }
+        return synchronized(lock) {
+            implTransferTo(out)
+        }
+    }
+
+    private fun implTransferTo(out: OutputStream): Long {
+        if (this::class == BufferedInputStream::class && markpos == -1) {
+            val avail = count - pos
+            if (avail > 0) {
+                if (isTrusted(out)) {
+                    out.write(getBufIfOpen(), pos, avail)
+                } else {
+                    // Prevent poisoning and leaking of buf
+                    val buffer = getBufIfOpen().copyOfRange(pos, count)
+                    out.write(buffer)
+                }
+                pos = count
             }
-            if (U.compareAndSetReference(this, BUF_OFFSET, buffer, null)) {
-                val input = `in`
-                input?.close()
-                `in` = null
-                return
+            return try {
+                avail.toLong().plus(getInIfOpen().transferTo(out))
+            } catch (ignore: ArithmeticException) {
+                Long.MAX_VALUE
             }
-            // Else retry in case a new buf was CASed in fill()
-        }*/
+        } else {
+            return super.transferTo(out)
+        }
     }
 
     companion object {
         private val EMPTY = byteArrayOf()
+
+        private fun isTrusted(os: OutputStream): Boolean {
+            // FIXME: depends on FileOutputStream::class
+            // FIXME: depends on PipedOutputStream::class
+            val clazz = os::class
+            return clazz == ByteArrayOutputStream::class /*||
+                   clazz == FileOutputStream::class ||
+                   clazz == PipedOutputStream::class*/
+        }
     }
 }

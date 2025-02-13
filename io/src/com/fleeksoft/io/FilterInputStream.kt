@@ -27,4 +27,12 @@ package com.fleeksoft.io
 
 expect open class FilterInputStream protected constructor(input: InputStream?) : InputStream {
     override fun read(): Int
+    override fun read(bytes: ByteArray): Int
+    override fun read(bytes: ByteArray, off: Int, len: Int): Int
+    override fun skip(n: Long): Long
+    override fun available(): Int
+    override fun close()
+    override fun mark(readLimit: Int)
+    override fun reset()
+    override fun markSupported(): Boolean
 }
