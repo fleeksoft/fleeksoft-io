@@ -1,6 +1,6 @@
-package com.fleeksoft.charset.internal
+package com.fleeksoft.io.internal
 
-internal object ArraysSupport {
+object ArraysSupport {
     const val SOFT_MAX_ARRAY_LENGTH = Int.MAX_VALUE - 8
 
     fun newLength(oldLength: Int, minGrowth: Int, prefGrowth: Int): Int {

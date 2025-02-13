@@ -25,7 +25,6 @@
 
 package com.fleeksoft.charset
 
-import com.fleeksoft.charset.internal.ArraysSupport
 import com.fleeksoft.charset.internal.CoderResultInternal
 import com.fleeksoft.charset.internal.WeakReference
 import com.fleeksoft.charset.internal.assert
@@ -34,6 +33,7 @@ import com.fleeksoft.io.ByteBufferFactory
 import com.fleeksoft.io.CharBuffer
 import com.fleeksoft.io.CharBufferFactory
 import com.fleeksoft.io.exception.CoderMalfunctionError
+import com.fleeksoft.io.internal.ArraysSupport
 import kotlin.math.min
 
 /**
