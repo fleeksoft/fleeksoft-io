@@ -21,15 +21,15 @@ jobs:
     runs-on: ${{ matrix.config.os }}
     name: Test ${{ matrix.config.target }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Setup gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
 
       - name: Run tests for ${{ matrix.config.tasks }} on ${{ matrix.config.target }}
         continue-on-error: ${{ matrix.config.continueOnError }}
@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload test results from ksoup-test module if failure
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.config.target }}
           path: charset-ext/build/reports/tests/**/*
