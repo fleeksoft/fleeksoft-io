@@ -387,8 +387,8 @@ class MicroAmper(val project: Project) {
             for (dep in deps) {
                 add(
                     dep.configuration, when {
-                        dep.path.contains('/') -> {
-                            val realPath = dep.path.replace("/", ":")
+                        dep.path.contains('/') || dep.path.contains('\\') -> {
+                            val realPath = dep.path.replace(Regex("[/\\\\]"), ":")
                             project(":$realPath")
                         }
 
