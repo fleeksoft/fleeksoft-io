@@ -1,11 +1,13 @@
 # Kotlin Multiplatform IO Library
 
-This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It allows you to work with common Java-style IO operations on Kotlin code that runs across multiple platforms, including JVM, Android, iOS, and more.
+A Kotlin Multiplatform (KMP) port of Java’s IO classes, bringing familiar IO operations to multiplatform projects—JVM, Android, iOS, macOS, Linux, Windows, Web, and beyond.
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.1.10-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.1.20-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 [![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
-
+---
+## 🌐 Supported Platforms
 ![badge-jvm](http://img.shields.io/badge/platform-jvm-DB413D.svg?style=flat)
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
@@ -17,105 +19,136 @@ This library is a port of JDK's IO classes to Kotlin Multiplatform (KMP). It all
 ![badge-js](https://img.shields.io/badge/platform-js-F8DB5D.svg?style=flat)
 ![badge-wasm](https://img.shields.io/badge/platform-wasm-F8DB5D.svg?style=flat)
 
-## Features
+---
 
-This library is split into modules, each covering specific sets of classes to support Java-style IO in Kotlin Multiplatform. Key features include:
+## ✨ Features
 
-### Note
-This library does not include APIs for direct file reading and writing but provides comprehensive support for InputStream operations derived from strings or byte arrays. You can extend this functionality using `kotlinx-io` or `okio`, which enables seamless file operations with Source and InputStream conversions. Please check the extension modules
+This library is organized into modular components for flexibility and clarity.
 
-### IO Core Module (`com.fleeksoft.io:io-core`)
-Provides foundational classes for buffer and charset management.
+> **Note**
+> Direct file read/write APIs are not included. For file operations, use this library in combination with `kotlinx-io` or `okio`, which support stream conversions.
 
-- **Buffer**: Base container for data, compatible with `java.nio.Buffer`.
-- **ByteBuffer**: Buffer specifically for byte data.
-- **CharBuffer**: Buffer for character data.
-- **CharBufferFactory**: Utility for creating `CharBuffer` and `ByteBuffer` instances.
-- **Closeable**: Interface for resources that require closing after usage.
-- **Readable**: Interface for sources that can be read into a `CharBuffer`.
-### Main IO Module (`com.fleeksoft.io:io`)
-Includes IO core classes for reading character and byte streams.
+---
+### 🧱 Core Module (`com.fleeksoft.io:io-core`)
 
-- **Reader**: Abstract class for reading character streams.
-- **InputStream**: Abstract class for reading raw byte streams.
-- **ByteArrayInputStream**: Creates an `InputStream` from a `ByteArray`.
-- **InputStreamReader**: Bridges byte streams to character streams.
-- **BufferedReader**: Efficient reader that wraps character streams.
-- **StringReader**: Reads from a string as if it were a character stream.
-- **CharArrayReader**: Reads characters from an array.
-- **FilterInputStream** and **FilterReader**: Wraps `InputStream` and `Reader` for additional functionality.
-- **PushbackReader**: Enables pushing back characters into the stream for re-reading.
-- **Charset**: Encodes and decodes text with support from [`com.fleeksoft.charset`](https://github.com/fleeksoft/charset).
-  - `Extensions Functions`: InputStream and Reader extension functions:
-      - `String.byteInputStream(charset: Charset = Charsets.UTF8): ByteArrayInputStream`
-      - `ByteArray.inputStream(): ByteArrayInputStream`
-      - `ByteArray.inputStream(off: Int, len: Int): ByteArrayInputStream`
-      - `InputStream.reader(charset: Charset = Charsets.UTF8): InputStreamReader`
-      - `Reader.buffered(bufferSize: Int = Constants.DEFAULT_BYTE_BUFFER_SIZE): BufferedReader`
-      - `InputStream.bufferedReader(charset: Charset = Charsets.UTF8): BufferedReader`
-      - `Reader.forEachLine(action: (String) -> Unit): Unit`
-      - `Reader.readLines(): List<String>`
-      - `String.reader(): StringReader`
-      - `BufferedReader.lineSequence(): Sequence<String>`
-      - `BufferedReader.readString(count: Int): String`
-### URI Module (`com.fleeksoft.io:uri`)
-Provides a port of `java.net.URI` for Kotlin Multiplatform.
+Core components for buffer and charset management.
 
-- **URI**: A class representing a Uniform Resource Identifier (URI) reference, as defined by RFC 2396 and updated by RFC 2732. This class provides constructors and methods for manipulating URIs, parsing components, resolving relative URIs, and normalizing URIs.
-- **URIFactory**: Utility class for creating `URI` instances. Instead of using `URI.create(str)`, you should use `URIFactory.create(str)`.
-### kotlinx-io Integration (`com.fleeksoft.io:kotlinx-io`)
-Provides seamless interoperation with kotlinx-io, extending its functionality with InputStream and Source conversions.
-- **Source.asInputStream(): InputStream**: Converts a Source into an InputStream.
-- **RawSource.asInputStream(): InputStream**: Converts a RawSource into an InputStream.
-- **InputStream.asSource(): RawSource**: Converts an InputStream into a RawSource.
+- `Buffer`: Base container (like `java.nio.Buffer`)
+- `ByteBuffer`, `CharBuffer`
+- `CharBufferFactory`: Helper utilities to create buffers
+- `Closeable`, `Readable`: Interfaces for IO components
 
-### Okio Integration (`com.fleeksoft.io:okio`)
-Provides seamless interoperation with Okio, extending its functionality with InputStream and Source conversions.
-- **Source.asInputStream(): InputStream**: Converts a Source into an InputStream.
-- **InputStream.asSource(): Source**: Converts an InputStream into a Source.
+---
 
+### 📦 IO Module (`com.fleeksoft.io:io`)
 
-### Charset Modules
-- Standard charsets: `com.fleeksoft.charset:charset:<version>`
-- Extended charsets: `com.fleeksoft.charset:charset-ext:<version>`
+Stream and reader abstractions.
 
-[Check here for more info](CharsetsReadme.md)
+- **Character Streams**
+  - `Reader`, `BufferedReader`, `StringReader`, `CharArrayReader`
+  - `PushbackReader`, `FilterReader`
+- **Byte Streams**
+  - `InputStream`, `ByteArrayInputStream`, `InputStreamReader`
+  - `OutputStream`, `ByteArrayOutputStream`, `BufferedOutputStream`, `FilterOutputStream`
+- **Charset Support**  [CharsetsReadme.md](CharsetsReadme.md)
+- **Extension Functions**
+  ```kotlin
+  "Hello".byteInputStream() // return ByteArrayInputStream
+  "Hello".reader() // return StringReader
+  byteArray.inputStream() // return ByteArrayInputStream
+  inputStream.reader() // return InputStreamReader
+  inputStream.bufferedReader() // return BufferedReader
+  reader.buffered() // return BufferedReader
+  reader.buffered().readLines()
+  bufferedReader.readString(count)```
 
+---
 
-## Installation
-###### Latest Version
-[![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
+---
 
-To integrate this library into your Kotlin Multiplatform project, add the relevant dependencies in your `build.gradle.kts`:
+### 🌐 URI Module (`com.fleeksoft.io:uri`)
+
+Multiplatform-safe version of `java.net.URI`.
+
+- `URI`: Parse, resolve, normalize URIs
+- `URIFactory`: Use this instead of `URI.create()`
+
+---
+
+### 🔌 kotlinx-io Integration (`com.fleeksoft.io:kotlinx-io`)
+
+Interop for working with `kotlinx-io` streams:
+
+- `Source.asInputStream(): InputStream`
+- `RawSource.asInputStream(): InputStream`
+- `InputStream.asSource(): RawSource`
+
+---
+
+### 🔌 Okio Integration (`com.fleeksoft.io:okio`)
+
+Interop for Okio-powered IO:
+
+- `Source.asInputStream(): InputStream`
+- `InputStream.asSource(): Source`
+
+---
+
+### 🧬 Charset Modules
+
+Support for standard and extended character sets:
+
+- Standard: `com.fleeksoft.charset:charset:<version>`
+- Extended: `com.fleeksoft.charset:charset-ext:<version>`
+
+➡️ [More info](CharsetsReadme.md)
+
+---
+
+## 🛠 Installation
+
+Add dependencies in your `build.gradle.kts`:
+
 ```kotlin
 commonMain.dependencies {
-  implementation("com.fleeksoft.io:io-core:<version>")
-  implementation("com.fleeksoft.io:io:<version>")
-  // Optional: kotlinx-io integration
-  implementation("com.fleeksoft.io:kotlinx-io:<version>")
+    implementation("com.fleeksoft.io:io-core:<version>")
+    implementation("com.fleeksoft.io:io:<version>")
+
+    // Optional integrations
+    implementation("com.fleeksoft.io:kotlinx-io:<version>")
+    implementation("com.fleeksoft.io:okio:<version>")
 }
 ```
 
-## Usage Examples
-Here’s a basic usage example:
+Find the latest version here:
+[![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
+---
+
+## 🚀 Usage Example
+
 ```kotlin
 val str = "Hello, World!"
 val byteArray = ByteArray(10)
 val charArray = CharArray(10)
 
-val byteArrayInputStream: ByteArrayInputStream = str.byteInputStream()
-val stringReader: StringReader = str.reader()
+val byteArrayInputStream = str.byteInputStream()
+val stringReader = str.reader()
 
-val byteArrayInputStream2 = byteArray.inputStream()
+val bufferedReader = stringReader.buffered()
+val bufferedReader2 = byteArrayInputStream.bufferedReader()
 
-val bufferedReader: BufferedReader = stringReader.buffered()
-val bufferedReader2: BufferedReader = byteArrayInputStream.bufferedReader()
-
-val byteBuffer: ByteBuffer = ByteBufferFactory.wrap(byteArray)
-val charBuffer: CharBuffer = CharBufferFactory.wrap(charArray)
+val byteBuffer = ByteBufferFactory.wrap(byteArray)
+val charBuffer = CharBufferFactory.wrap(charArray)
 ```
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
 
-## License
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE.md) file for more details.
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+Open an issue or submit a pull request to improve features, fix bugs, or enhance documentation.
+
+## 📄 License
+
+Licensed under the Apache License 2.0.
+See [LICENSE](LICENSE.md) for full details.

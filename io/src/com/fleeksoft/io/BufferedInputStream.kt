@@ -37,4 +37,5 @@ expect open class BufferedInputStream: FilterInputStream {
     override fun reset()
     override fun markSupported(): Boolean
     override fun close()
+    override fun transferTo(out: OutputStream): Long
 }

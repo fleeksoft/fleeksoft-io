@@ -25,14 +25,37 @@
 
 package com.fleeksoft.io
 
-expect open class FilterInputStream protected constructor(input: InputStream?) : InputStream {
-    override fun read(): Int
-    override fun read(bytes: ByteArray): Int
-    override fun read(bytes: ByteArray, off: Int, len: Int): Int
-    override fun skip(n: Long): Long
-    override fun available(): Int
+expect abstract class OutputStream() : Closeable, Flushable {
+
+ /**
+     * Writes the specified byte to this output stream. The general
+     * contract for {@code write} is that one byte is written
+     * to the output stream. The byte to be written is the eight
+     * low-order bits of the argument {@code b}. The 24
+     * high-order bits of {@code b} are ignored.
+     *
+     * @param      b   the {@code byte}.
+     * @throws     com.fleeksoft.io.exception.IOException  if an I/O error occurs. In particular,
+     *             an {@code IOException} may be thrown if the
+     *             output stream has been closed.
+     */
+    abstract fun write(b: Int)
+
+
+    /**
+     * Writes {@code b.length} bytes from the specified byte array
+     * to this output stream. The general contract for {@code write(b)}
+     * is that it should have exactly the same effect as the call
+     * {@code write(b, 0, b.length)}.
+     *
+     * @param      b   the data.
+     * @throws     com.fleeksoft.io.exception.IOException  if an I/O error occurs.
+     */
+    open fun write(b: ByteArray)
+
+    open fun write(b: ByteArray, off: Int, len: Int)
+
+    override fun flush()
+
     override fun close()
-    override fun mark(readLimit: Int)
-    override fun reset()
-    override fun markSupported(): Boolean
 }

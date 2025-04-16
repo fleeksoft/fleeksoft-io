@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1994, 2022, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,14 +25,21 @@
 
 package com.fleeksoft.io
 
-expect open class FilterInputStream protected constructor(input: InputStream?) : InputStream {
-    override fun read(): Int
-    override fun read(bytes: ByteArray): Int
-    override fun read(bytes: ByteArray, off: Int, len: Int): Int
-    override fun skip(n: Long): Long
-    override fun available(): Int
+expect open class ByteArrayOutputStream : OutputStream {
+    constructor()
+    constructor(size: Int)
+
+    override fun write(b: Int)
+
+    override fun write(b: ByteArray, off: Int, len: Int)
+
+    open fun writeBytes(b: ByteArray)
+    open fun writeTo(out: OutputStream)
+    open fun reset()
+    open fun toByteArray(): ByteArray
+    open fun size(): Int
+
+    override fun toString(): String
     override fun close()
-    override fun mark(readLimit: Int)
-    override fun reset()
-    override fun markSupported(): Boolean
+
 }

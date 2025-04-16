@@ -10,4 +10,5 @@ object Constants {
 
     /** Maximum skip-buffer size  */
     const val maxSkipBufferSize: Int = 8192
+    const val MAX_TRANSFER_SIZE = 128 * 1024
 }

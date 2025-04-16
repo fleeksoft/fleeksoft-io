@@ -3,6 +3,7 @@ package com.fleeksoft.io
 import com.fleeksoft.io.exception.EOFException
 import com.fleeksoft.io.exception.IOException
 import com.fleeksoft.io.exception.OutOfMemoryError
+import com.fleeksoft.io.internal.MathHelper
 import com.fleeksoft.io.internal.ObjHelper
 
 actual abstract class InputStream actual constructor() : Closeable {
@@ -173,4 +174,23 @@ actual abstract class InputStream actual constructor() : Closeable {
     actual open fun available(): Int {
         return 0
     }
+
+    actual open fun transferTo(out: OutputStream): Long {
+        requireNotNull(out) { "out" }
+        var transferred = 0L
+        val buffer = ByteArray(Constants.IS_DEFAULT_BYTE_BUFFER_SIZE)
+        var read: Int
+        while (this.read(buffer, 0, Constants.IS_DEFAULT_BYTE_BUFFER_SIZE).also { read = it } >= 0) {
+            out.write(buffer, 0, read)
+            if (transferred < Long.MAX_VALUE) {
+                transferred = try {
+                    MathHelper.addExact(transferred, read.toLong())
+                } catch (ignore: ArithmeticException) {
+                    Long.MAX_VALUE
+                }
+            }
+        }
+        return transferred
+    }
+
 }

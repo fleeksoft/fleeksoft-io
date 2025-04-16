@@ -5,6 +5,8 @@ BufferedReader.readString
 OutputStream
 SequenceInputStream
 StreamDecoder and its static functions: forInputStreamReader
+Add PipedInputStream & PipedOutputStream
+
 
 
 

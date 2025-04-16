@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1994, 2022, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,14 +25,19 @@
 
 package com.fleeksoft.io
 
-expect open class FilterInputStream protected constructor(input: InputStream?) : InputStream {
-    override fun read(): Int
-    override fun read(bytes: ByteArray): Int
-    override fun read(bytes: ByteArray, off: Int, len: Int): Int
-    override fun skip(n: Long): Long
-    override fun available(): Int
-    override fun close()
-    override fun mark(readLimit: Int)
-    override fun reset()
-    override fun markSupported(): Boolean
+/**
+ * A {@code Flushable} is a destination of data that can be flushed.  The
+ * flush method is invoked to write any buffered output to the underlying
+ * stream.
+ **/
+expect interface Flushable {
+
+    /**
+     * Flushes this stream by writing any buffered output to the underlying
+     * stream.
+     *
+     * @throws com.fleeksoft.io.exception.IOException If an I/O error occurs
+     */
+    fun flush()
+
 }

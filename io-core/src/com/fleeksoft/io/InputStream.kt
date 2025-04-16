@@ -52,4 +52,6 @@ expect abstract class InputStream() : Closeable {
     public open fun available(): Int
 
     public open fun markSupported(): Boolean
+
+    open fun transferTo(out: OutputStream): Long
 }

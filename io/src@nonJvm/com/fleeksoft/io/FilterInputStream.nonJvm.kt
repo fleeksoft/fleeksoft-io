@@ -33,7 +33,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      * @return     {@inheritDoc}
      * @throws com.fleeksoft.io.exception.IOException  if an I/O error occurs.
      */
-    override fun read(bytes: ByteArray): Int {
+    actual override fun read(bytes: ByteArray): Int {
         return read(bytes, 0, bytes.size)
     }
 
@@ -55,7 +55,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      * @throws     IndexOutOfBoundsException {@inheritDoc}
      * @throws com.fleeksoft.io.exception.IOException  if an I/O error occurs.
      */
-    override fun read(bytes: ByteArray, off: Int, len: Int): Int {
+    actual override fun read(bytes: ByteArray, off: Int, len: Int): Int {
         return input!!.read(bytes, off, len)
     }
 
@@ -73,7 +73,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      * @return     the actual number of bytes skipped.
      * @throws com.fleeksoft.io.exception.IOException  if `in.skip(n)` throws an IOException.
      */
-    override fun skip(n: Long): Long {
+    actual override fun skip(n: Long): Long {
         return input!!.skip(n)
     }
 
@@ -91,7 +91,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      * skipped over) from this input stream without blocking.
      * @throws com.fleeksoft.io.exception.IOException  {@inheritDoc}
      */
-    override fun available(): Int {
+    actual override fun available(): Int {
         return input!!.available()
     }
 
@@ -102,7 +102,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      *
      * @throws com.fleeksoft.io.exception.IOException  {@inheritDoc}
      */
-    override fun close() {
+    actual override fun close() {
         input?.close()
     }
 
@@ -121,7 +121,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      *
      * @param   readLimit   {@inheritDoc}
      */
-    override fun mark(readLimit: Int) {
+    actual override fun mark(readLimit: Int) {
         input?.mark(readLimit)
     }
 
@@ -144,7 +144,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      *
      * @throws com.fleeksoft.io.exception.IOException  {@inheritDoc}
      */
-    override fun reset() {
+    actual override fun reset() {
         input?.reset()
     }
 
@@ -159,7 +159,7 @@ actual open class FilterInputStream protected actual constructor(@Volatile prote
      * `mark` and `reset` method;
      * `false` otherwise.
      */
-    override fun markSupported(): Boolean {
+    actual override fun markSupported(): Boolean {
         return input!!.markSupported()
     }
 
