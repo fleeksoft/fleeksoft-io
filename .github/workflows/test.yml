@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        java-version: ['11', '17', '21', '24']
+        java-version: ['17', '21', '24']
         config: [
             { target: android, os: ubuntu-latest, tasks: testDebugUnitTest testReleaseUnitTest, continueOnError: false },
             { target: apple, os: macos-latest, tasks: iosX64Test iosSimulatorArm64Test macosX64Test macosArm64Test tvosX64Test tvosSimulatorArm64Test, continueOnError: false },
@@ -38,12 +38,7 @@ jobs:
       - name: Run tests for ${{ matrix.config.tasks }} on ${{ matrix.config.target }}
         continue-on-error: ${{ matrix.config.continueOnError }}
         run: |
-          # Skip Android tests on Java 11 as Android Gradle plugin requires Java 17+
-          if [[ "${{ matrix.java-version }}" == "11" && "${{ matrix.config.target }}" == "android" ]]; then
-            echo "Skipping Android tests on Java 11 as Android Gradle plugin requires Java 17+"
-          else
-            ./gradlew ${{ matrix.config.tasks }}
-          fi
+          ./gradlew ${{ matrix.config.tasks }}
         shell: bash
         working-directory: ${{ github.workspace }}
 
