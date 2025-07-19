@@ -3,9 +3,11 @@ StringBuffer and replace StringBuilder in com.fleeksoft.net.UriTest.kt
 StringWriter
 BufferedReader.readString
 OutputStream
-SequenceInputStream
+SequenceInputStream and add test fun parseSequenceInputStream in DataUtilTest.kt in Ksoup
 StreamDecoder and its static functions: forInputStreamReader
 Add PipedInputStream & PipedOutputStream
+
+Add codepoint
 
 
 
