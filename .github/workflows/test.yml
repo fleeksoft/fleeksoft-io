@@ -38,7 +38,12 @@ jobs:
       - name: Run tests for ${{ matrix.config.tasks }} on ${{ matrix.config.target }}
         continue-on-error: ${{ matrix.config.continueOnError }}
         run: |
-          ./gradlew ${{ matrix.config.tasks }}
+          # Skip Android tests on Java 11 as Android Gradle plugin requires Java 17+
+          if [[ "${{ matrix.java-version }}" == "11" && "${{ matrix.config.target }}" == "android" ]]; then
+            echo "Skipping Android tests on Java 11 as Android Gradle plugin requires Java 17+"
+          else
+            ./gradlew ${{ matrix.config.tasks }}
+          fi
         shell: bash
         working-directory: ${{ github.workspace }}
 
