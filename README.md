@@ -3,7 +3,7 @@
 A Kotlin Multiplatform (KMP) port of Java’s IO classes, bringing familiar IO operations to multiplatform projects—JVM, Android, iOS, macOS, Linux, Windows, Web, and beyond.
 
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.1.20-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 [![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
 ---
