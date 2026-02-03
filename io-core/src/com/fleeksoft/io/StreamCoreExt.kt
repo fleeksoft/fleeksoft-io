@@ -1,4 +1,10 @@
+@file:OptIn(ExperimentalContracts::class)
+
 package com.fleeksoft.io
+
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 public inline fun String.byteInputStream(): ByteArrayInputStream =
     ByteArrayInputStream(this.encodeToByteArray())
@@ -10,8 +16,54 @@ public inline fun ByteArray.inputStream(off: Int, len: Int): ByteArrayInputStrea
 
 public inline fun String.reader(): StringReader = StringReader(this)
 
+public inline fun Reader.buffered(bufferSize: Int = Constants.DEFAULT_BYTE_BUFFER_SIZE): BufferedReader =
+    this as? BufferedReader ?: BufferedReader(this, bufferSize)
+
 public fun Reader.readString(count: Int): String {
     val buffer = CharArray(count)
     val charsRead = this.read(buffer, 0, count)
     return if (charsRead > 0) buffer.concatToString(startIndex = 0, endIndex = charsRead) else ""
+}
+
+public fun Reader.forEachLine(action: (String) -> Unit): Unit = useLines { it.forEach(action) }
+
+public fun Reader.readLines(): List<String> {
+    val result = arrayListOf<String>()
+    forEachLine { result.add(it) }
+    return result
+}
+
+public inline fun <T> Reader.useLines(block: (Sequence<String>) -> T): T {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+    return buffered().use { block(it.lineSequence()) }
+}
+
+public fun BufferedReader.lineSequence(): Sequence<String> = LinesSequence(this).constrainOnce()
+
+private class LinesSequence(private val reader: BufferedReader) : Sequence<String> {
+    public override fun iterator(): Iterator<String> {
+        return object : Iterator<String> {
+            private var nextValue: String? = null
+            private var done = false
+
+            public override fun hasNext(): Boolean {
+                if (nextValue == null && !done) {
+                    nextValue = reader.readLine()
+                    if (nextValue == null) done = true
+                }
+                return nextValue != null
+            }
+
+            public override fun next(): String {
+                if (!hasNext()) {
+                    throw NoSuchElementException()
+                }
+                val answer = nextValue
+                nextValue = null
+                return answer!!
+            }
+        }
+    }
 }

@@ -142,7 +142,7 @@ actual abstract class ByteBuffer(
 
     fun copyInto(dst: ByteBuffer, destOffset: Int = 0, srcPos: Int = 0, length: Int): ByteBuffer {
         byteArray.copyInto(
-            dst.byteArray,
+            destination = dst.byteArray,
             destinationOffset = destOffset,
             startIndex = srcPos,
             endIndex = srcPos + length
