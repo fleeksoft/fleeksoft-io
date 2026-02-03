@@ -12,11 +12,6 @@ import kotlin.contracts.contract
 public inline fun String.byteInputStream(charset: Charset = Charsets.UTF8): ByteArrayInputStream =
     ByteArrayInputStream(toByteArray(charset))
 
-public inline fun ByteArray.inputStream(): ByteArrayInputStream = ByteArrayInputStream(this)
-
-public inline fun ByteArray.inputStream(off: Int, len: Int): ByteArrayInputStream =
-    ByteArrayInputStream(this, off, len)
-
 public inline fun InputStream.reader(charset: Charset = Charsets.UTF8): InputStreamReader =
     InputStreamReader(this, charset)
 
@@ -35,20 +30,12 @@ public fun Reader.readLines(): List<String> {
     return result
 }
 
-public fun Reader.readString(count: Int): String {
-    val buffer = CharArray(count)
-    val charsRead = this.read(buffer, 0, count)
-    return if (charsRead > 0) buffer.concatToString(startIndex = 0, endIndex = charsRead) else ""
-}
-
 public inline fun <T> Reader.useLines(block: (Sequence<String>) -> T): T {
     contract {
         callsInPlace(block, InvocationKind.EXACTLY_ONCE)
     }
     return buffered().use { block(it.lineSequence()) }
 }
-
-public inline fun String.reader(): StringReader = StringReader(this)
 
 public fun BufferedReader.lineSequence(): Sequence<String> = LinesSequence(this).constrainOnce()
 
