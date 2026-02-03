@@ -3,7 +3,7 @@
 A Kotlin Multiplatform (KMP) port of Java’s IO classes, bringing familiar IO operations to multiplatform projects—JVM, Android, iOS, macOS, Linux, Windows, Web, and beyond.
 
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.3.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 [![Maven Central](https://img.shields.io/maven-central/v/com.fleeksoft.io/io.svg)](https://central.sonatype.com/artifact/com.fleeksoft.io/io)
 ---
@@ -31,36 +31,35 @@ This library is organized into modular components for flexibility and clarity.
 ---
 ### 🧱 Core Module (`com.fleeksoft.io:io-core`)
 
-Core components for buffer and charset management.
+Core buffers plus the main stream/reader implementations and extensions.
 
 - `Buffer`: Base container (like `java.nio.Buffer`)
 - `ByteBuffer`, `CharBuffer`
-- `CharBufferFactory`: Helper utilities to create buffers
-- `Closeable`, `Readable`: Interfaces for IO components
+- `ByteBufferFactory`, `CharBufferFactory`: Helper utilities to create buffers
+- `InputStream`, `OutputStream`, `Reader`, `BufferedReader`
+- `ByteArrayInputStream`, `ByteArrayOutputStream`, `BufferedInputStream`, `BufferedOutputStream`
+- `FilterInputStream`, `FilterOutputStream`, `FilterReader`, `PushbackReader`
+- `StringReader`, `CharArrayReader`
+- `Closeable`, `Readable`, `Flushable`: Interfaces for IO components
+- **Core Extensions**
+  - `"Hello".byteInputStream()`, `"Hello".reader()`
+  - `byteArray.inputStream()`
+  - `reader.buffered()`, `reader.readLines()`, `reader.readString(count)`
 
 ---
 
 ### 📦 IO Module (`com.fleeksoft.io:io`)
 
-Stream and reader abstractions.
+Charset-aware reader adapter and `InputStream` extensions.
 
-- **Character Streams**
-  - `Reader`, `BufferedReader`, `StringReader`, `CharArrayReader`
-  - `PushbackReader`, `FilterReader`
-- **Byte Streams**
-  - `InputStream`, `ByteArrayInputStream`, `InputStreamReader`
-  - `OutputStream`, `ByteArrayOutputStream`, `BufferedOutputStream`, `FilterOutputStream`
+- `InputStreamReader`
 - **Charset Support**  [CharsetsReadme.md](CharsetsReadme.md)
-- **Extension Functions**
+- **Stream Extensions**
   ```kotlin
-  "Hello".byteInputStream() // return ByteArrayInputStream
-  "Hello".reader() // return StringReader
-  byteArray.inputStream() // return ByteArrayInputStream
-  inputStream.reader() // return InputStreamReader
-  inputStream.bufferedReader() // return BufferedReader
-  reader.buffered() // return BufferedReader
-  reader.buffered().readLines()
-  bufferedReader.readString(count)```
+  val byteArrayInputStream: ByteArrayInputStream = "...".byteInputStream(Charsets.UTF8) 
+  val inputStreamReader: InputStreamReader = inputStream.reader(Charsets.UTF8) // return InputStreamReader
+  val bufferReader: BufferedReader = inputStream.bufferedReader(Charsets.UTF8) // return BufferedReader
+  ```
 
 ---
 
