@@ -1,9 +1,9 @@
 [versions]
-libraryVersion = "0.0.5"
+libraryVersion = "0.0.7"
 kotlin = "2.3.0"
-agp = "8.12.3"
+agp = "8.13.2"
 stately = "2.1.0"
-mavenPublish = "0.34.0"
+mavenPublish = "0.36.0"
 kotlinx-atomicfu = "0.31.0"
 kotlinx-io = "0.8.2"
 okio = "3.16.4"
