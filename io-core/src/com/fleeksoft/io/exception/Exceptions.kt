@@ -32,11 +32,10 @@ expect class BufferOverflowException() : RuntimeException
 expect class MalformedInputException(inputLength: Int) : CharacterCodingException
 expect class UnmappableCharacterException(inputLength: Int)
 expect class CoderMalfunctionError(cause: Exception) : Error
-
-// FIXME: extending RuntimeException failing in expect
-class UncheckedIOException : RuntimeException {
-    constructor(message: String, cause: IOException) : super(message, cause)
-    constructor(cause: IOException) : super(cause)
+expect class UncheckedIOException : RuntimeException {
+    constructor(message: String, cause: IOException)
+    constructor(cause: IOException)
+    override val cause: IOException?
 }
 
 expect class URISyntaxException : Exception {
