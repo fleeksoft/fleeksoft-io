@@ -1,8 +1,5 @@
 package com.fleeksoft.io.exception
 
-import kotlin.Exception
-import kotlin.IndexOutOfBoundsException
-
 actual open class IOException : Exception {
     actual constructor() : super()
     actual constructor(msg: String) : super(msg)
@@ -42,11 +39,13 @@ actual class UnmappableCharacterException actual constructor(inputLength: Int) :
 
 actual class CoderMalfunctionError actual constructor(cause: Exception) : Error(cause)
 
-/*
 actual class UncheckedIOException : RuntimeException {
     actual constructor(message: String, cause: IOException) : super(message, cause)
     actual constructor(cause: IOException) : super(cause)
-}*/
+
+    actual override val cause: IOException?
+        get() = super.cause as IOException?
+}
 
 
 actual class URISyntaxException : Exception {
@@ -86,4 +85,10 @@ actual class URISyntaxException : Exception {
             sb.append(this._input)
             return sb.toString()
         }
+}
+
+
+actual class NegativeArraySizeException: RuntimeException {
+    actual constructor() : super()
+    actual constructor(msg: String) : super(msg)
 }
