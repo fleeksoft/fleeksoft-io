@@ -46,3 +46,8 @@ expect class URISyntaxException : Exception {
     fun getIndex(): Int
     fun getReason(): String
 }
+
+expect class NegativeArraySizeException : RuntimeException {
+    constructor()
+    constructor(msg: String)
+}

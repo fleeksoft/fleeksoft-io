@@ -86,3 +86,9 @@ actual class URISyntaxException : Exception {
             return sb.toString()
         }
 }
+
+
+actual class NegativeArraySizeException: RuntimeException {
+    actual constructor() : super()
+    actual constructor(msg: String) : super(msg)
+}

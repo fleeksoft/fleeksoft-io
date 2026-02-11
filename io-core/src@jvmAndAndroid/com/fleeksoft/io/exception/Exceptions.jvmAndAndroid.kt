@@ -16,3 +16,4 @@ actual typealias CoderMalfunctionError = java.nio.charset.CoderMalfunctionError
 actual typealias UncheckedIOException = java.io.UncheckedIOException
 
 actual typealias URISyntaxException = java.net.URISyntaxException
+actual typealias NegativeArraySizeException = java.lang.NegativeArraySizeException
