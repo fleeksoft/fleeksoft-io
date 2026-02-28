@@ -25,6 +25,7 @@ jobs:
             { target: desktop, os: ubuntu-latest, tasks: jvmTest, continueOnError: false },
             { target: windows, os: windows-latest, tasks: mingwX64Test, continueOnError: false },
             { target: linux, os: ubuntu-latest, tasks: linuxX64Test, continueOnError: false },
+            { target: linux, os: ubuntu-latest, tasks: wasmWasiNodeTest, continueOnError: true },
           ]
     runs-on: ${{ matrix.config.os }}
     name: Test ${{ matrix.config.target }} (JDK ${{ matrix.java-version }})
