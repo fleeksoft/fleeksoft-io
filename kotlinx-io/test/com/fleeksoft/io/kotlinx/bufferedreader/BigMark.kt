@@ -1,7 +1,7 @@
 package com.fleeksoft.io.kotlinx.bufferedreader
 
 import com.fleeksoft.charset.Platform
-import com.fleeksoft.charset.isJsOrWasm
+import com.fleeksoft.charset.isJsOrWasmJs
 import com.fleeksoft.io.BufferedReader
 import com.fleeksoft.io.kotlinx.asInputStream
 import com.fleeksoft.io.exception.OutOfMemoryError
@@ -23,7 +23,7 @@ class BigMark {
 
     @Test
     fun main() {
-        if (Platform.isJsOrWasm()) {
+        if (Platform.isJsOrWasmJs()) {
 //            file read/write issue
             return
         }

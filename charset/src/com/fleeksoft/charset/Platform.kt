@@ -10,7 +10,8 @@ enum class PlatformType {
     JS,
     MAC,
     WINDOWS,
-    WASM,
+    WASM_JS,
+    WASM_WASI,
 }
 
 expect object Platform {
@@ -28,6 +29,7 @@ fun Platform.isJvmOrAndroid(): Boolean = this.current == PlatformType.JVM || thi
 
 fun Platform.isJvm(): Boolean = this.current == PlatformType.JVM
 
-fun Platform.isJsOrWasm(): Boolean = this.current == PlatformType.JS || this.current == PlatformType.WASM
+fun Platform.isJsOrWasmJs(): Boolean = this.current == PlatformType.JS || this.current == PlatformType.WASM_JS
 
-fun Platform.isWasmJs(): Boolean = this.current == PlatformType.WASM
+fun Platform.isWasmJs(): Boolean = this.current == PlatformType.WASM_JS
+fun Platform.isWasmWasi(): Boolean = this.current == PlatformType.WASM_WASI
