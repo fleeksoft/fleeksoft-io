@@ -320,8 +320,13 @@ class MicroAmper(val project: Project) {
                             }
                         }
                     }
+                    kotlin.wasmWasi {
+                        nodejs()
+                        binaries.executable()
+                    }
                     kotlin.sourceSets {
                         ssDependsOn("wasmJs", "wasm")
+                        ssDependsOn("wasmWasi", "wasm")
                     }
                 }
 
